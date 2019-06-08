@@ -1,2 +1,2 @@
-# my_blog
-my_blog
+# hexo_blog
+A Blog
