@@ -5,7 +5,7 @@ tags: [java, note]
 categories: Java
 ---
 
-Java 编程思想学习
+Java 编程思想
 
 <!-- more -->
 
@@ -67,7 +67,7 @@ sizeof：c,c++中用来计算数据占的字节，这导致移植代码很头疼
 
 ## 5 初始化与清理
 
-构造器：构造器的命名和类名相同
+构造器：构造器的命名和类名相同，可以带访问修饰符，不能有返回值。
 
 方法重载：构造器也可以方法重载，方法重载要求函数名相同，参数不一样，参数的顺序不一样也是方法重载，但是一般不建议这么做。一般动态语言不需要方法重载。方法重载一定要写的明确，这样编译器在调用方法的时候才知道是调用哪个方法。
 
@@ -86,7 +86,7 @@ java后缀的源代码通常称为编译单元，每个编译单元内只能有�
 
 关于package语句，必须是文件中除注释外的第一句代码。包命名规则全部使用小写字母，包括中间的字也是如此。导包用的星号如果两个包包含同一个类，那么这肯定是有问题的，但是只要不写调用的代码编译器是不会报错的，这种情况应该用完整路径来引用对象。
 
-理解编译单元，默认包
+理解编译单元，默认包，friendly权限是java的默认权限，也称作包（package）访问权限
 
 public private
 
@@ -101,5 +101,78 @@ protected: 受保护的
 `访问权限的控制常被称为是具体实现的隐藏`
 
 类的访问权限：一个包下的类，要遵守他的文件名定义规则，然后只能有一个public类，可以把public去掉，这样该类就只有包访问权限，其它包即使导入他，也不能访问，通过也很少这么做。另外当不用public修饰类时，类命可以不和文件名一致。
+
+## 7 复用类
+
+组合，继承，代理
+
+每一个非基本类型对象都有一个toString方法，类似python的 `__str__`
+
+初始化，继承的基类初始化的时候，默认会调用基类的构造方法，构建过程是从基类“向外”扩散的，当然这只能调用默认不带参数的构造器，带参数的构造器需要显示的调用super方法。
+
+```java
+class Cleanser {
+    Cleanser(int i) {
+        System.out.println(i);
+    }
+    Cleanser() {
+        System.out.println("123");
+    }
+}
+
+public class Detergent extends Cleanser {
+    Detergent() {
+        // super(321)
+        System.out.println("abc");
+    }
+    public static void main(String[] args) {
+        Detergent x = new Detergent();
+        System.out.println("Testing base class");
+    }
+}
+```
+
+如果去掉Cleanser类的默认构造函数，IDEA会警告，因为找不到满足条件的构造函数，编译代码会去调用需要传递参数的构造函数导致报错。注释部分为显示调用。
+
+名称屏蔽：如果Java的基类拥有某个已被多次重载的方法名称，那么在导出类中重新定义该方法名称并不会屏蔽在基类中的任何版本，这一点与C++不同`（如果C++要这么做需要屏蔽基类方法，另外本书比较旧了，不排除c++做了改动）`
+
+```java
+class Homer {
+    char doh(char c) {
+        System.out.println("doh(char)");
+        return 'd';
+    }
+
+    float doh(float f) {
+        System.out.println("doh(float)");
+        return 1.0f;
+    }
+}
+
+class Milhouse {
+}
+
+class Bart extends Homer {
+    void doh(Milhouse m) {
+        System.out.println("doh(Milhouse)");
+    }
+}
+
+public class Hide {
+    public static void main(String[] args) {
+        Bart b = new Bart();
+        b.doh(1);
+        b.doh('x');
+        b.doh(1.0f);
+        b.doh(new Milhouse());
+    }
+}
+// doh(float)
+// doh(char)
+// doh(float)
+// doh(Milhouse)
+```
+
+向上转型：基类A，有一个方法，参数类型为A的引用，导出类B，调用A的方法，传递参数为B的实例，这似乎和强类型语言Java违背，但在继承中是可以的，你需要认识到B对象同样也是一种A对象，这种将B的引用转换为A的引用的动作，称为向上转型。
 
 ## 15 泛型
