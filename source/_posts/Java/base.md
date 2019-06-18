@@ -102,6 +102,8 @@ protected: 受保护的
 
 类的访问权限：一个包下的类，要遵守他的文件名定义规则，然后只能有一个public类，可以把public去掉，这样该类就只有包访问权限，其它包即使导入他，也不能访问，通过也很少这么做。另外当不用public修饰类时，类命可以不和文件名一致。
 
+再次强调，类前面不加修饰，权限就是包访问权限，当前包内的其它类可以访问，跨包不行。
+
 ## 7 复用类
 
 组合，继承，代理
@@ -174,5 +176,69 @@ public class Hide {
 ```
 
 向上转型：基类A，有一个方法，参数类型为A的引用，导出类B，调用A的方法，传递参数为B的实例，这似乎和强类型语言Java违背，但在继承中是可以的，你需要认识到B对象同样也是一种A对象，这种将B的引用转换为A的引用的动作，称为向上转型。
+
+final:
+
+1. 允许空白final，但是在构造函数中必须进行初始化。
+2. final 参数，可以用来修饰参数。被修饰的参数不能在方法中去修改它。
+3. 修饰方法，防止方法被继承类修改。
+4. 类修饰，那么该类无法被继承。类方法都会隐式的指向final。
+
+private 和 final: 类中的private方法都隐式的指定为final。可以对private添加final，但这并不能给该方法增加任何额外的意义。 “覆盖”只有在某方法是基类的接口的一部分才会出现，即`必须能将一个对象向上转型`为它的基本类型并调用相同的方法。如果某方法为private，它就不是基类接口的一部分，用private修饰的方法在基类中同名方法不是方法覆盖，而是生成一个新的方法。
+
+继承与初始化
+
+```java
+class Insect {
+    private int i = 9;
+    protected int j;
+    Insect() {
+        System.out.println("i = " + i + ", j= " + j);
+        j = 39;
+    }
+    private static int x1 = printInt("static Insecr.x1 initialized");
+    static int printInt(String s) {
+        System.out.println(s);
+        return 47;
+    }
+}
+
+public class Beetle extends Insect {
+    private int k = printInt("Beetle.k initialized");
+    public Beetle () {
+        System.out.println("k = " + k);
+        System.out.println("j = " + j);
+    }
+    private static int x2 = printInt("static Beetle.x2 initialized");
+    public static void main(String[] args) {
+        System.out.println("Beetle constructor");
+        Beetle b = new Beetle();
+    }
+}
+//static Insecr.x1 initialized
+//static Beetle.x2 initialized
+//Beetle constructor
+//i = 9, j= 0
+//Beetle.k initialized
+//k = 47
+//j = 39
+```
+
+理解以上输出结果。
+
+1. 每个类的编译代码都存在于它自己的独立文件夹中。
+2. 该文件只在需要使用程序代码时才会被加载。
+3. 一般来说类的代码在初次使用时才会加载，这通常指加载发生于创建类的第一个对象之时（但是访问static域或static方法时，也会加载。构造器也是static方法，它没有显示的表示出来，更准确的说，类是在其任何static成员被访问时才加载的）
+4. 按照继承先加载对象，继承最顶层的类先被加载，然后是下面的类。然后创建对象，基本类型设置为默认值，对象的引用设置为null（通常是将对象内存二进制设置为零），然后是构造器调用。
+
+## 8 多态
+
+在面向对象程序设计语言中，多态是继数据抽象和继承之后的第三种基本特征。
+
+“封装”通过合并特征和行为来创建新的数据类型。“实现隐藏”则通过将细节“私有化”把接口和实现分离开来。多态的作用是消除类型之间的耦合关系。
+
+方法调用绑定：在程序执行前就把方法同相关联的方法主体关联起来称为前期绑定，与之相对的就是后期绑定，就是在运行时根据对象类型进行绑定。所有编译器需要有一种机制在运行时判断对象类型。Java除了static和final（private也是final）之外，其它都是后期绑定。使用final就可以告诉编译器关系动态绑定，一定程度优化代码，不过完全没有这个必要。
+
+
 
 ## 15 泛型
