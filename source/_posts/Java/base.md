@@ -310,3 +310,22 @@ class A extends B implements C, D {}
 
 
 ## 15 泛型
+
+## 20 注解
+
+包含三种标准注解和四种元注解
+
+标准注解：
+1. Override
+2. Deprecated
+3. SuppressWarnings
+
+元注解：
+1. Target
+2. Retention
+3. Documented
+4. Inherited
+
+注解是一种标记，基本注解用来决定注解到什么地方，什么时候发挥作用。我们需要读取注解的工具，也就是`创建与使用注解处理器`
+
+注解处理器是一个单独的类

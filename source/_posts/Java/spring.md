@@ -39,6 +39,7 @@ velocity
 ## 注解
 
 @SpringBootApplication注解相当于同时使用@EnableAutoConfiguration、@ComponentScan、@Configurations三个注解  
+
 @EnableAutoConfiguration用于打开SpringBoot自动配置，而其余注解为Spring注解，这里不再赘述
 
 @RestController相当于同时使用@Controller和@ResponseBody注解
