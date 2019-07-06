@@ -177,3 +177,58 @@ Maven Helper maven插件，打开该pom文件的Dependency Analyzer视图
     Alt+Delete，安全删除 
     Ctrl+Alt+N，内联
 
+
+
+ETE_CTDFS_01
+{0: OffsetPartitionResponse(offset=[5168646], err=0)}
+[(0, OffsetFetchPartitionResponse(offset=4117513, metadata='{"hostname": "DESKTOP-UVFL8GK", "consumer_id": ""}', err=0))]
+{"ID":"40000","CompType":"PSHDP","CompKey":"134.108.14.70|hdfs_server_50070","HOSTIP":"134.108.14.70","METRICCODE":"30202623280013","METRICTYPE":"1","METRICVALUE":"457189.0GB","COLLECTTIME":"2019-06-12 15:24:41"}
+ETE_PS-MYS-UDL_01
+{0: OffsetPartitionResponse(offset=[1042592], err=0)}
+[(0, OffsetFetchPartitionResponse(offset=996385, metadata='{"hostname": "DESKTOP-UVFL8GK", "consumer_id": ""}', err=0))]
+{"ID":"1560736020003000052","CompKey":"134.108.14.29|UDAL_GISERVER_8927","HOSTIP":"134.108.14.29","METRICCODE":"30202623250007","METRICTYPE":"1","METRICVALUE":"true","COLLECTTIME":"2019-06-17 09:47:00.003"}
+ETE_CTGMQ_01
+{0: OffsetPartitionResponse(offset=[6137759], err=0)}
+[(0, OffsetFetchPartitionResponse(offset=5905464, metadata='{"hostname": "DESKTOP-UVFL8GK", "consumer_id": ""}', err=0))]
+[{"COLLECTTIME":"2019-06-17 10:38:05","CompKey":"katest_BILLING_MQ_batchTaskMqTopic_112|batchTaskMqConsumerGroup_112","ID":"406542253","METRICCODE":"30202623270011","METRICTYPE":"1",
+ETE_TELEDB_01
+{0: OffsetPartitionResponse(offset=[79979710], err=0)}
+[(0, OffsetFetchPartitionResponse(offset=72118888, metadata='{"hostname": "DESKTOP-UVFL8GK", "consumer_id": ""}', err=0))]
+{"METRICVALUE": "1", "CompType": "PSMYS", "COLLECTTIME": "2019-06-12 15:34:26", "METRICTYPE": "0", "CompKey": "134.108.15.51|mysql_server_8802", "METRICCODE": "30202623250002", "SEQID": "", "HostIP": "134.108.15.51", "id": 1556117986721}
+ETE_PS-MYS-DBP_01
+{0: OffsetPartitionResponse(offset=[42458420], err=0)}
+[(0, OffsetFetchPartitionResponse(offset=40321971, metadata='{"hostname": "DESKTOP-UVFL8GK", "consumer_id": ""}', err=0))]
+{"ID":"1560734880004000012","CompKey":"134.108.14.17|UDAL_DBPROXY_8902","HOSTIP":"134.108.14.17","METRICCODE":"30202624250018","METRICTYPE":"2","METRICVALUE":"377","COLLECTTIME":"2019-06-17 09:28:00.004"}
+ETE_CACHE_01
+{0: OffsetPartitionResponse(offset=[1182184948], err=0)}
+[(0, OffsetFetchPartitionResponse(offset=1139445719, metadata='{"hostname": "DESKTOP-UVFL8GK", "consumer_id": ""}', err=0))]
+{"ID":"20000","COMPKEY":"134.108.14.127|redis_server_9015","HOSTIP":"134.108.14.127","METRICCODE":"30202623260004","METRICTYPE":"1","METRICVALUE":"1","COLLECTTIME":"2019-06-18 04:58:00"}
+
+
+"C:\Users\liu zhi\AppData\Local\conda\conda\envs\DX_XC\python.exe" D:/PythonProjects/zdyw/my_test/kafka_test/test.py
+ETE_CTDFS_01
+{0: OffsetPartitionResponse(offset=[5181738], err=0)}
+[(0, OffsetFetchPartitionResponse(offset=4117518, metadata='{"hostname": "DESKTOP-UVFL8GK", "consumer_id": ""}', err=0))]
+{"ID":"40000","CompType":"PSHDP","CompKey":"134.108.14.94|hdfs_server_1022|datanode","HOSTIP":"134.108.14.94","METRICCODE":"30202624280002","METRICTYPE":"2","METRICVALUE":"6062.276190476191","COLLECTTIME":"2019-06-12 15:24:58"}
+ETE_PS-MYS-UDL_01
+{0: OffsetPartitionResponse(offset=[1043512], err=0)}
+[(0, OffsetFetchPartitionResponse(offset=996389, metadata='{"hostname": "DESKTOP-UVFL8GK", "consumer_id": ""}', err=0))]
+{"ID":"1560736080004000004","CompKey":"134.108.14.29|UDAL_GISERVER_8927","HOSTIP":"134.108.14.29","METRICCODE":"30202623250007","METRICTYPE":"1","METRICVALUE":"true","COLLECTTIME":"2019-06-17 09:48:00.004"}
+ETE_CTGMQ_01
+{0: OffsetPartitionResponse(offset=[6142405], err=0)}
+[(0, OffsetFetchPartitionResponse(offset=6079974, metadata='{"hostname": "DESKTOP-UVFL8GK", "consumer_id": ""}', err=0))]
+[{"COLLECTTIME":"2019-06-23 10:37:05","CompKey":"134.108.14.46|katest_BILLING_MQ_billing_broker_004_10911","HOSTIP":"134.108.14.46","ID":"421838727","METRICCODE":"30202623270002","METRICTYPE":"1","METRICVALUE":"ALIVE","SEQID":""},{"COLLECTTIME":"2019-06-23 10:37:05","CompKey":"134.108.14.45|katest_BILLING_MQ_billing_broker_004_10921","HOSTIP":"134.108.14.45","ID":"421838742","METRICCODE":"30202623270002","METRICTYPE":"1","METRICVALUE":"ALIVE","SEQID":""},{"COLLECTTIME":"2019-06-23 10:37:05","CompKey":"134.108.14.44|katest_BILLING_MQ_billing_broker_001_10921","HOSTIP":"134.108.14.44","ID":"421838751","METRICCODE":"30202623270002","METRICTYPE":"1","METRICVALUE":"ALIVE","SEQID":""},{"COLLECTTIME":"2019-06-23 10:37:05","CompKey":"134.108.14.43|katest_BILLING_MQ_billing_broker_002_10921","HOSTIP":"134.108.14.43","ID":"421838760","METRICCODE":"30202623270002","METRICTYPE":"1","METRICVALUE":"ALIVE","SEQID":""},{"COLLECTTIME":"2019-06-23 10:37:05","CompKey":"134.108.14.44|katest_BILLING_MQ_billing_broker_002_10911","HOSTIP":"134.108.14.44","ID":"421838771","METRICCODE":"30202623270002","METRICTYPE":"1","METRICVALUE":"ALIVE","SEQID":""},{"COLLECTTIME":"2019-06-23 10:37:05","CompKey":"134.108.14.43|katest_BILLING_MQ_billing_broker_001_10911","HOSTIP":"134.108.14.43","ID":"421838781","METRICCODE":"30202623270002","METRICTYPE":"1","METRICVALUE":"ALIVE","SEQID":""},{"COLLECTTIME":"2019-06-23 10:37:05","CompKey":"134.108.14.45|katest_BILLING_MQ_billing_broker_003_10911","HOSTIP":"134.108.14.45","ID":"421838788","METRICCODE":"30202623270002","METRICTYPE":"1","METRICVALUE":"ALIVE","SEQID":""},{"COLLECTTIME":"2019-06-23 10:37:05","CompKey":"134.108.14.46|katest_BILLING_MQ_billing_broker_003_19021","HOSTIP":"134.108.14.46","ID":"421838798","METRICCODE":"30202623270002","METRICTYPE":"1","METRICVALUE":"ALIVE","SEQID":""}]
+ETE_TELEDB_01
+{0: OffsetPartitionResponse(offset=[80082736], err=0)}
+[(0, OffsetFetchPartitionResponse(offset=78836051, metadata='{"hostname": "DESKTOP-UVFL8GK", "consumer_id": ""}', err=0))]
+{"METRICVALUE": 0, "CompType": "PSMYS", "COLLECTTIME": "2019-06-23 15:44:54", "METRICTYPE": "1", "CompKey": "134.108.15.36|mysql_server_8801", "METRICCODE": "30202624250020", "SEQID": "", "HostIP": "134.108.15.36", "id": 1556124705999}
+ETE_PS-MYS-DBP_01
+{0: OffsetPartitionResponse(offset=[42503714], err=0)}
+[(0, OffsetFetchPartitionResponse(offset=40563260, metadata='{"hostname": "DESKTOP-UVFL8GK", "consumer_id": ""}', err=0))]
+{"ID":"1560821280003000017","CompKey":"134.108.14.35|UDAL_DBPROXY_8903","HOSTIP":"134.108.14.35","METRICCODE":"30202624250006","METRICTYPE":"2","METRICVALUE":"127","COLLECTTIME":"2019-06-18 09:28:00.003"}
+ETE_CACHE_01
+{0: OffsetPartitionResponse(offset=[1183127060], err=0)}
+[(0, OffsetFetchPartitionResponse(offset=1176190803, metadata='{"hostname": "DESKTOP-UVFL8GK", "consumer_id": ""}', err=0))]
+{"ID":"20000","COMPKEY":"134.108.14.128|redis_server_9002","HOSTIP":"134.108.14.128","METRICCODE":"30202624260012","METRICTYPE":"2","METRICVALUE":"0","COLLECTTIME":"2019-06-24 10:00:00"}
+
+Process finished with exit code 0
