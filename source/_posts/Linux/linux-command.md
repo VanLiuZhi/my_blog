@@ -222,3 +222,19 @@ rpm  -ivh  包全名
 查询包是否安装：rpm  -q  包名  rpm  -qa 列出已安装的包
 查询包中文件安装位置：rpm  -ql  包名
 查询详细信息：rpm  -qi  包名　　-i　查询软件信息（information）　　-p　查询未安装包信息（package
+
+## supervisorctl工具
+
+Supervisord 是用 Python 实现的一款的进程管理工具，supervisord 要求管理的程序是非 daemon 程序，supervisord 会帮你把它转成 daemon 程序，因此如果用 supervisord 来管理进程，进程需要以非daemon的方式启动。
+例如：管理nginx 的话，必须在 nginx 的配置文件里添加一行设置 daemon off 让 nginx 以非 daemon 方式启动
+
+命令分为supervisord和supervisorctl两种类型，supervisord用于初始化和启动服务，然后基本都是用supervisorctl来管理进程
+
+```
+supervisord -c ./conf/supervisor.conf  启动服务
+supervisorctl -c ./conf/supervisor.conf reload
+supervisorctl -c ./conf/supervisor.conf restart 进程名称
+supervisorctl -c ./conf/supervisor.conf status 查看状态
+```
+
+以上的命令都是显示的指定配置文件的形式
