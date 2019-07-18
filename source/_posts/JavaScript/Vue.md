@@ -346,6 +346,11 @@ store.commit({
 
 - actions: store.dispatch('increment') 的方式触发
 
+```
+默认情况下,模块内的getter, mutation, action是注册在全局空间的, state只注册在局部命名空间的
+要想使模块内的getter,mutation,action注册在模块命名空间,必须在模块内加上 namespaced: true, 比如访问 store.getters['publish/useComponent']
+```
+
 ### 辅助函数
 
 mapState 计算属性中使用，就是需要获取store的属性并映射到计算属性的时候可以用它简化代码
@@ -371,7 +376,6 @@ mapMutations 是 mutation 相关的辅助函数，可以在组件的methods中�
 
 ```js
 <input v-model="message">
-
 computed: {
   message: {
     get () {
