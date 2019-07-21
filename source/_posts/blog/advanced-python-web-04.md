@@ -3,7 +3,7 @@ title: python web 开发进阶(四) 项目测试
 date: 2019-02-01 00:00:04
 tags: [python, web, technology]
 categories: technology 技术
-top: 4
+# top: 4
 ---
 
 项目的前端到后端都准备好了，下面开始运行它，本来计划部署到阿里云服务器上的，但是200多的服务器还是太弱了，可以勉强跑起来，但是cup占用率过半后，导致远程连接卡到无法使用，只能在本地模拟了，由于是用的docker，其实和服务器上差异不大了。

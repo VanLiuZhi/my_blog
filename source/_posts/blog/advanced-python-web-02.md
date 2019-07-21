@@ -3,7 +3,7 @@ title: python web 开发进阶(二) 前端工程
 date: 2019-02-01 00:00:02
 tags: [python, web, technology]
 categories: technology 技术
-top: 2
+# top: 2
 ---
 
 前端最近几年发展的势头应该是最大的了，开始我在项目中是利用框架的模板来编写前端代码的，后来随着业务的复杂度不断的上升，用传统的jQuery已经很难实现需求了，这时候转向了Vue这种数据驱动的框架，这使得很多需求几行代码就搞定了，开发效率大幅度提升。

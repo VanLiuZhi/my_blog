@@ -3,7 +3,7 @@ title: python web 开发进阶(三) 使用Docker部署项目
 date: 2019-02-01 00:00:03
 tags: [python, web, technology]
 categories: technology 技术
-top: 3
+# top: 3
 ---
 
 docker 是 2013 年发布的开源的应用容器引擎，虽然时间不长，但是很快占据市场受到开发者的青睐，docker不仅是运维同学的专项，作为一名开发者，学习docker是必备的。下面讲解如何使用docker开发和部署项目。

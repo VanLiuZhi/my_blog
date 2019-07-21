@@ -40,7 +40,7 @@ daovoice:
 # 主页文章排序方式
 ## true 按照文章更新时间排序
 ## false 按照文章创建时间排序
-articleSort: false
+articleSort: true
 
 # 站浏览数统计
 visit_counter: 
