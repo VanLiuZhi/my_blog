@@ -29,6 +29,9 @@ POJO（Plain Ordinary Java Object）简单的Java对象，实际就是普通Java
 - RMI
 RMI(Remote Method Invocation，远程方法调用)是用Java在JDK1.2中实现的，它大大增强了Java开发分布式应用的能力。Java作为一种风靡一时的网络开发语言，其巨大的威力就体现在它强大的开发分布式网络应用的能力上，而RMI就是开发百分之百纯Java的网络分布式应用系统的核心解决方案之一。其实它可以被看作是RPC的Java版本。但是传统RPC并不能很好地应用于分布式对象系统。而Java RMI 则支持存储于不同地址空间的程序级对象之间彼此进行通信，实现远程对象之间的无缝远程调用。
 
+- impl
+全称implement是用来实现接口的
+
 ## Spring properties 配置文件
 
 通过配置文件，可以修改框架配置，或为框架提供数据，比如生成一个随机数，和框架配合后可以很方便的获取一个随机数，而不需要写更多的代码
@@ -50,20 +53,47 @@ velocity
 
 ## 注解
 
+注解说明
+
+### @Resource和@Autowired
+
+共同点
+
+@Resource和@Autowired都可以作为注入属性的修饰，在接口仅有单一实现类时，两个注解的修饰效果相同，可以互相替换，不影响使用。
+
+不同点，在有多个实现的时候使用要注意
+
+@Resource是Java自己的注解，@Resource有两个属性是比较重要的，分是name和type；Spring将@Resource注解的name属性解析为bean的名字，而type属性则解析为bean的类型。所以如果使用name属性，则使用byName的自动注入策略，而使用type属性时则使用byType自动注入策略。如果既不指定name也不指定type属性，这时将通过反射机制使用byName自动注入策略。
+@Autowired是spring的注解，是spring2.5版本引入的，Autowired只根据type进行注入，不会去匹配name。如果涉及到type无法辨别注入对象时，那需要依赖@Qualifier或@Primary注解一起来修饰。
+
+参考原文：https://blog.csdn.net/magi1201/article/details/82590106 
+
+### @SpringBootApplication
+
 @SpringBootApplication注解相当于同时使用@EnableAutoConfiguration、@ComponentScan、@Configurations三个注解  
+
+### @EnableAutoConfiguration
 
 @EnableAutoConfiguration用于打开SpringBoot自动配置，而其余注解为Spring注解，这里不再赘述
 
+### @RestController
+
 @RestController相当于同时使用@Controller和@ResponseBody注解
 
+### @Configuration
+
 @Configuration表示该类为配置类，该注解可以被@ComponentScan扫描到
+
+### @ImportResource
 
 // 通过@ImportResource加载xml配置文件 配置文件放在资源目录下，注解作用于主函数入口
 @ImportResource(value = "classpath:config.xml")
 
+### @Transactional
+
 @Transactional 用于事务的注解
 
-# IDEA 插件
+## IDEA 插件
 
 Lombok plugin
 GsonFormat
@@ -71,6 +101,9 @@ FindBugs-IDEA
 CodeGlance	右侧文档结构图
 .ignore	git 文件提交过滤
 Maven Helper maven插件，打开该pom文件的Dependency Analyzer视图
+
+
+## IDEA 快捷键
 
 
     Ctrl+Alt+O 优化导入的类和包 
