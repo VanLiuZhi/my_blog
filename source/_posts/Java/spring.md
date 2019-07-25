@@ -105,7 +105,6 @@ Maven Helper maven插件，打开该pom文件的Dependency Analyzer视图
 
 ## IDEA 快捷键
 
-
     Ctrl+Alt+O 优化导入的类和包 
     Alt+Insert 生成代码(如get,set方法,构造函数等) 或者右键（Generate） 
     fori/sout/psvm + Tab 
