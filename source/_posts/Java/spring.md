@@ -2,7 +2,7 @@
 title: Spring
 date: 2019-04-05 00:00:00
 tags: [java, note]
-categories: Java编程
+categories: Java
 ---
 
 Spring 基础概念

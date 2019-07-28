@@ -2,7 +2,7 @@
 title: mybatis 配置使用总结
 date: 2019-07-25 00:00:00
 tags: [java, note]
-categories: Java编程
+categories: Java
 ---
 
 mybatis 学习笔记和基础概念，在spring boot中的使用配置总结
@@ -51,7 +51,7 @@ mybatis:
 
 这个指明了实体类的包路径，这样在映射xml中就不用写全名了。mybatis配置文件不是必须的，不显示的指定配置参数，那就使用默认的。
 
-接下来就是src源文件了，包括entity实体类包，和mapper接口类包，实体类描述了表的字段，接口类方法描述了对表的操作CURD，具体的操作实现由xml映射文件来实现。
+接下来就是src源文件了，包括entity实体类(或者取名为model)包，和mapper接口类包，实体类描述了表的字段，接口类方法描述了对表的操作CURD，具体的操作实现由xml映射文件来实现。
 
 至此，整个配置流程就完成了，需要手动创建数据库，然后就可以使用了。
 
