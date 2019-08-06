@@ -1,5 +1,5 @@
 ---
-title: python web 开发进阶(二) 前端工程
+title: python web 开发(二) 前端工程
 date: 2019-02-01 00:00:02
 tags: [python, web, technology]
 categories: technology 技术

@@ -5,7 +5,7 @@ tags: [database, note]
 categories: database
 ---
 
-原生语句的使用
+原生语句的使用与学习
 
 <!-- more -->
 

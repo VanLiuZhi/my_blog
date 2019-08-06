@@ -5,7 +5,7 @@ tags: [css, html]
 categories: css
 ---
 
-css总结
+css总结笔记
 
 <!-- more -->
 

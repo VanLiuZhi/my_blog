@@ -5,7 +5,7 @@ tags: [java, note]
 categories: Java
 ---
 
-Maven
+Maven的使用与学习总结
 
 <!-- more -->
 

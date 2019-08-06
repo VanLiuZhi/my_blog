@@ -1,5 +1,5 @@
 ---
-title: python web 开发进阶(三) 使用Docker部署项目
+title: python web 开发(三) 使用Docker部署项目
 date: 2019-02-01 00:00:03
 tags: [python, web, technology]
 categories: technology 技术

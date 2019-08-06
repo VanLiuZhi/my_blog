@@ -1,9 +1,9 @@
 ---
-title: python web 开发进阶(一) 后端架构
+title: python web 开发(一) 后端架构
 date: 2019-02-01 00:00:01
 tags: [python, web, technology]
 categories: technology 技术
-# top: 2
+# top: 1
 ---
 
 Python web 开发总结篇，主要分析web开发中后端架构的设计，前端工程化，服务部署，测试等和web开发相关的整个流程。做了很多准备工作，编写了一个可以用的项目，主要为演示所用，后面会上传到GitHub上，整体功能就是通过ress获得数据用于展示，也可以当场一个快速上手的开发环境，它将包括很多常见的服务。

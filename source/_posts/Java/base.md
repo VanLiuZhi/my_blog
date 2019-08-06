@@ -5,7 +5,7 @@ tags: [java, note]
 categories: Java
 ---
 
-Java 编程思想
+Java 编程思想读书笔记
 
 <!-- more -->
 
