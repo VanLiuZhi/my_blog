@@ -6,6 +6,7 @@ categories: web开发
 toc: true
 ---
 
+表单请求类型
 
 <!-- more -->
 
