@@ -344,4 +344,18 @@ box-sizing属性用于更改用于计算元素宽度和高度的默认的 CSS �
 
 给元素添加背景，做一个图标按钮，需要设置padding 扩充元素大小，不然图片没法显示
 
+## 滚动条控制与计算相关属性
+
+理解可视区域；div整体高度，包括因为滚动条看不见的部分
+
+scrollTop：可视区域滚动的时候，顶部和div整体高度的顶部之间的距离
+
+clientHeight：可视区域高度
+
+scrollHeight：div整体高度
+
+element.scrollHeight - element.scrollTop === element.clientHeight // 判断是否到底
+
+element.scrollTop = 0 // 返回顶部
+
 
