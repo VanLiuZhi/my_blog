@@ -456,7 +456,9 @@ distinct()可以对查询集进行去重复，比如querset.distinct(),  得到�
 
 ## 事务
 
-在Django中使用事务：`@transaction.atomic` 该装饰器将装饰内容由事务来处理。
+默认情况下，django的sql执行都是在事务中进行的，MySQL一般都是开启默认事务提交的，正常情况下，sql语句必须要开启事务，如何才能提交事务。而django的sql的执行会默认在事务中，避免了脏读。
+
+在Django中使用事务：`@transaction.atomic` 该装饰器将装饰内容由事务来处理，也就是把多个sql执行封装在一个事务里面。
 
 ## 命令
 
