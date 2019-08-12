@@ -387,3 +387,21 @@ computed: {
   }
 }
 ```
+
+## 报错处理
+
+运行vue项目的时候，出现了[Vue warn]: Duplicate keys detected: '0'. This may cause an update error（错误，检测到重复的key值：”0“，这可能会导致更新错误）
+
+错误原因：
+我们在使用v-for的时候，都要必须加上一个唯一的key值，但是这里写了两个for循环，尽管都加上了key值,然而又将key的值写成一样的了。所以就导致了警告。
+
+解决办法：
+可以将其中一个的key修改一下即可。不行就两个都修改。
+
+出错的地方：
+写了两个一样的for循环，绑定的key相同。
+
+```html
+<div class="info" v-for="(item, index) in itemList" :key="index"></div>
+<div class="info" v-for="(item, index) in itemList" :key="index"></div>
+```
