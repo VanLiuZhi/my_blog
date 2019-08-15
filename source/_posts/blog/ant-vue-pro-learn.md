@@ -9,6 +9,12 @@ Ant Vue 实现使用总结
 
 <!-- more -->
 
+## 流程
+
+1. 初步实现
+2. 风格确定
+3. 代码审查
+
 ## 知识补充
 
 - Vue.prototype
@@ -20,6 +26,35 @@ Ant Vue 实现使用总结
 
 mock的请求不会在浏览器被记录的，它是一种js代码控制的行为，当然不知道是不是有其它办法，总之用了mock需要调试的话，使用console
 mock的初始化要先，保证被mock记录的URL都能被拦截到
+
+## 规范
+
+注释：
+
+```
+<!-- 用户管理视图
+@author vanliuzhi
+@create 2019-08-15
+-->
+```
+
+```
+/**
+ * @description 系统管理，用户管理API
+ * @author vanliuzhi
+ * @create 2019-08-15
+ */
+```
+
+数据相应结构：
+```
+{
+	"message": "",
+	"result": {},
+	"code": 200,
+	"timestamp": 
+}
+```
 
 ## vue-cli3.0
 
