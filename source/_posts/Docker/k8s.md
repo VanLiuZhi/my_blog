@@ -269,3 +269,112 @@ find /etc/kubespray -name '*.yml' | xargs -n1 -I{} sed -i "s/mirrorgooglecontain
 find /etc/kubespray -name '*.yml' | xargs -n1 -I{} sed -i "s/mirrorgooglecontainers\/google-containers/registry\.cn-hangzhou\.aliyuncs\.com\/google_containers/g" {}
 find /etc/kubespray -name '*.yml' | xargs -n1 -I{} sed -i 's/quay\.io/quay-mirror\.qiniu\.com/' {}
 
+## kubeadm 安装
+
+sudo hostnamectl set-hostname node1
+
+sudo cat <<EOF >>sudo /etc/hosts
+
+192.168.59.101 master
+
+192.168.59.102 node1
+
+192.168.59.103 node2
+
+EOF
+
+
+sudo systemctl stop firewalld
+
+sudo systemctl disable firewalld
+
+sudo setenforce 0
+
+sudo sed -i "s/^SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config
+
+sudo swapoff -a
+
+sudo sed -i 's/.*swap.*/#&/' /etc/fstab
+
+
+sudo cat > sudo /etc/sysctl.d/k8s.conf <<EOF
+
+net.bridge.bridge-nf-call-ip6tables = 1
+
+net.bridge.bridge-nf-call-iptables = 1
+
+EOF
+
+sudo sysctl --system
+
+
+yum install -y wget
+
+sudo mkdir /etc/yum.repos.d/bak && sudo mv /etc/yum.repos.d/*.repo /etc/yum.repos.d/bak
+wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.cloud.tencent.com/repo/centos7_base.repo
+sudo wget -O /etc/yum.repos.d/epel.repo http://mirrors.cloud.tencent.com/repo/epel-7.repo
+sudo yum clean all && sudo yum makecache
+
+
+cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+
+[kubernetes]
+
+name=Kubernetes
+
+baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/
+
+enabled=1
+
+gpgcheck=1
+
+repo_gpgcheck=1
+
+gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+
+EOF
+
+
+sudo wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo
+
+
+sudo yum install -y docker-ce-18.06.1.ce-3.el7
+
+sudo systemctl enable docker && sudo systemctl start docker
+
+docker –version
+
+Docker version 18.06.1-ce, build e68fc7a
+
+
+sudo yum install -y kubelet kubeadm kubectl
+
+sudo systemctl enable kubelet
+
+
+kubeadm init --kubernetes-version=1.15.2 --apiserver-advertise-address=192.168.59.101 --image-repository registry.aliyuncs.com/google_containers --service-cidr=10.1.0.0/16 --pod-network-cidr=10.244.0.0/16
+
+
+Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 192.168.59.101:6443 --token r7j6o4.1mkpzrbwk4sfvtu0 --discovery-token-ca-cert-hash sha256:250470943e4c877f2dbfcb5be4e369a7a074c24bcd833628b326a999e968a6c7
+
+wget https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml
+
+sed -i 's/k8s.gcr.io/loveone/g' kubernetes-dashboard.yaml
+sed -i '/targetPort:/a\ \ \ \ \ \ nodePort: 30001\n\ \ type: NodePort' kubernetes-dashboard.yaml
+
+kubectl create clusterrolebinding admin-user –clusterrole=cluster-admin –serviceaccount=kube-system:admin-user
+
