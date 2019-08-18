@@ -37,106 +37,25 @@ kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | gre
 
 ## 安装
 
-以centos为例，推荐使用virtualBox，安装完成一个后，复制虚拟机即可，不然你要在各个节点都搞一次，并在节点上启动服务
-
-{% blockquote %}
-在安装之前，应该多看看文档，看看社区，不可能一次装好的，比如想在使用的版本就和以前的有差异，如果你看以前版本的教程那就不行，比如防火墙策略，所以开始多看看社区的文档会很有帮助
-
 安装总结：
 1. 关闭各种服务，保证安装和集群建立的成功
 2. 安装docker和k8s组件，并保证开启启动
 3. 每台机器上都是一样的，当然master如果不参与负载，可以不装部分组件
 4. 使用kubeadm部署Kubernetes，完成集群初始化
 
-由于各个k8s版本对环境的要求不一样，这点就比较关键，在不同时期的版本需要调整对应的系统配置
-
-{% endblockquote %}
-
-1. 换源（可选）
-
 ```
-wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo 
-yum makecache
-```
-
-切换到阿里源
-
-2. 安装前准备工作
-
-关闭防火墙
-```
-sudo systemctl stop firewalld
-sudo systemctl disable firewalld
-```
-
-3. 关闭Swap，关闭SeLinux
-
-swap 是 当Linux的物理内存不够的时候，就会使用swap。
-
-`swapoff -a && echo "vm.swappiness=0" >> /etc/sysctl.conf && sysctl -p && free –h`
-
-如果没有权限记得在路径前面加上sudo，swapoff命令查看相关操作
-
 关闭SeLinux，由于太复杂，关了
 SELinux(Security-Enhanced Linux) 是美国国家安全局（NSA）对于强制访问控制的实现，是 Linux历史上最杰出的新安全子系统。NSA是在Linux社区的帮助下开发了一种访问控制体系，在这种访问控制体系的限制下，进程只能访问那些在他的任务中所需要文件。
-
-`sed -i 's/SELINUX=*/SELINUX=disabled/' /etc/selinux/config`
-或 修改配置 `/etc/selinux/config` SELINUX=disabled
-
-
-4. 安装docker
-
-换源，使用阿里源
-
-```
-yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
-yum makecache
 ```
 
-`yum install -y docker-ce`
+`sed -i 's/SELINUX=*/SELINUX=disabled/' /etc/selinux/config`或修改配置 `/etc/selinux/config` SELINUX=disabled
 
-开启docker并卡机启动 `systemctl start docker & systemctl enable docker`
-
-5. 安装Kubernetes
-
-官方参考：[kubernetes](https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/)
-
-换源，使用阿里源，有些大佬给你Google的源，我真的服了，下面这种配置就是针对安装单一包的
-
-```
-cat <<EOF > /etc/yum.repos.d/kubernetes.repo
-
-[kubernetes]
-
-name=Kubernetes
-
-baseurl=http://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64
-
-enabled=1
-
-gpgcheck=0
-
-repo_gpgcheck=0
-
-gpgkey=http://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg
-
-        http://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
-
-EOF
-```
-
-可能因为权限的问题，可以在源目录先创建文件，把配置写入即可，然后安装k8s组件 `yum install -y kubelet kubeadm kubectl`
-
-6. 配置cgroup drive
+配置cgroup drive
 
 Cgroups是control groups的缩写，是Linux内核提供的一种可以限制、记录、隔离进程组（process groups）所使用的物理资源（如：cpu,memory,IO等等）的机制。最初由google的工程师提出，后来被整合进Linux内核。Cgroups也是LXC为实现虚拟化所使用的资源管理手段，可以说没有cgroups就没有LXC。
-
-保证docker 和 kubelet的 cgroup 一致，Cgroup Driver:Cgroupfs 与 Systemd
-查看（dockerk可以看到cgroup，kublete就不一定有了，这种情况就统一成一样的吧）
+保证docker 和 kubelet的 cgroup 一致，Cgroup Driver:Cgroupfs 与 Systemd。查看（dockerk可以看到cgroup，kublete就不一定有了，这种情况就统一成一样的吧）
 ` cat /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf` 可能会在 `/etc/systemd/system/kubelet.service.d`
-
 `docker info`
-
 修改docker的deamon.json 
 
 ```
@@ -145,13 +64,10 @@ Cgroups是control groups的缩写，是Linux内核提供的一种可以限制、
 }
 ```
 
-或者修改kublete
-
-去配置文件里面，环境变量设置加上
+或者修改kublete，去配置文件里面，环境变量设置加上
 `Environment="KUBELET_CGROUP_ARGS=--cgroup-driver=systemd"`
 
-
-7. 安装 kubelet & kubeadm & kubectl
+安装 kubelet & kubeadm & kubectl
 
 使用yum命令安装
 
@@ -160,6 +76,8 @@ kubeadm:用于初始化cluster，通过它完成k8s的初始化
 kubectl:kubectl是kubenetes命令行工具，通过kubectl可以部署和管理应用，查看各种资源，创建，删除和更新组件
 
 ## kubespray 安装方法
+
+并不是很推荐的一种方式，应为换源的原因，kubespray的版本往往和镜像不一致，而且你找到的别人的安装总结都是用自己或别人的，总的来说这是一个不错的工具，但是在天朝局域网下特别难用，最好就是锁定kubespray版本，然后使用阿里云制作自己的镜像，然后kubespray里面把谷歌的镜像换成自己制作的。
 
 批量换源
 
@@ -269,21 +187,33 @@ find /etc/kubespray -name '*.yml' | xargs -n1 -I{} sed -i "s/mirrorgooglecontain
 find /etc/kubespray -name '*.yml' | xargs -n1 -I{} sed -i "s/mirrorgooglecontainers\/google-containers/registry\.cn-hangzhou\.aliyuncs\.com\/google_containers/g" {}
 find /etc/kubespray -name '*.yml' | xargs -n1 -I{} sed -i 's/quay\.io/quay-mirror\.qiniu\.com/' {}
 
-## kubeadm 安装
+## kubeadm 安装(精简版)
 
-sudo hostnamectl set-hostname node1
+官方安装工具
 
-sudo cat <<EOF >>sudo /etc/hosts
+### 环境准备
 
+所有机器都要执行
+
+1. 设置主机名hostname，管理节点设置主机名为 master，其它设置为node
+
+```
+sudo hostnamectl set-hostname master
+```
+
+2. 然后配置/etc/hosts
+
+```
 192.168.59.101 master
 
 192.168.59.102 node1
 
 192.168.59.103 node2
+```
 
-EOF
+3. 关闭防火墙、selinux和swap
 
-
+```
 sudo systemctl stop firewalld
 
 sudo systemctl disable firewalld
@@ -295,28 +225,39 @@ sudo sed -i "s/^SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config
 sudo swapoff -a
 
 sudo sed -i 's/.*swap.*/#&/' /etc/fstab
+```
 
+4. 配置内核参数，将桥接的IPv4流量传递到iptables的链
 
-sudo cat > sudo /etc/sysctl.d/k8s.conf <<EOF
+```
+sudo touch /etc/sysctl.d/k8s.conf && sudo vim /etc/sysctl.d/k8s.conf
 
 net.bridge.bridge-nf-call-ip6tables = 1
 
 net.bridge.bridge-nf-call-iptables = 1
 
-EOF
-
+执行：
 sudo sysctl --system
+```
 
+5. 配置国内yum源
 
-yum install -y wget
+```
+sudo yum install -y wget
 
 sudo mkdir /etc/yum.repos.d/bak && sudo mv /etc/yum.repos.d/*.repo /etc/yum.repos.d/bak
-wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.cloud.tencent.com/repo/centos7_base.repo
+
+sudo wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.cloud.tencent.com/repo/centos7_base.repo
+
 sudo wget -O /etc/yum.repos.d/epel.repo http://mirrors.cloud.tencent.com/repo/epel-7.repo
+
 sudo yum clean all && sudo yum makecache
+```
 
+配置国内Kubernetes源
 
-cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+```
+sudo touch /etc/yum.repos.d/kubernetes.repo && sudo vim /etc/yum.repos.d/kubernetes.repo
 
 [kubernetes]
 
@@ -331,29 +272,41 @@ gpgcheck=1
 repo_gpgcheck=1
 
 gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+```
 
-EOF
+配置 docker 源
 
-
+```
 sudo wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo
+```
 
+至此，环境准备工作完成，处理主机名称设置不一样，其它操作每天机器执行都是一样的
 
+### 软件安装
+
+1. 安装docker
+
+```
 sudo yum install -y docker-ce-18.06.1.ce-3.el7
 
 sudo systemctl enable docker && sudo systemctl start docker
 
-docker –version
+查看安装：
+sudo docker –version
 
 Docker version 18.06.1-ce, build e68fc7a
+```
 
+2. 安装kubeadm、kubelet、kubectl
 
+```
 sudo yum install -y kubelet kubeadm kubectl
-
 sudo systemctl enable kubelet
-
+```
 
 kubeadm init --kubernetes-version=1.15.2 --apiserver-advertise-address=192.168.59.101 --image-repository registry.aliyuncs.com/google_containers --service-cidr=10.1.0.0/16 --pod-network-cidr=10.244.0.0/16
 
+### 部署master节点，node节点加入集群
 
 Your Kubernetes control-plane has initialized successfully!
 

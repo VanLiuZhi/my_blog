@@ -46,14 +46,14 @@ mock的初始化要先，保证被mock记录的URL都能被拦截到
  */
 ```
 
-数据相应结构：
+数据：
+接口数据走json，格式如下，后端也统一成该风格，数据封装在result中
+
 ```
-{
-	"message": "",
-	"result": {},
-	"code": 200,
-	"timestamp": 
-}
+code: 0
+message: ""
+result: {}
+timestamp: 1565707913336
 ```
 
 ## vue-cli3.0

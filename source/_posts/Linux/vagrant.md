@@ -12,7 +12,7 @@ categories: 操作系统
 ## 常用命令
 
 vagrant init 加 box name 通过box name 在当前目录创建VagrantFile，如果本地没有box就使用服务器上的
-box 下载后的目录 `~/.vagrant.d/boxes`，这个box就是基础镜像，只要有这个box，就可以创建多个虚拟机，虚拟机保存在`VirtualBox VMs`目录下
+box 下载后的目录 `~/.vagrant.d/boxes`，这个box就是基础镜像，只要有这个box，就可以创建多个虚拟机，虚拟机保存在`VirtualBox VMs`目录下(Mac系统)
 
 vagrant package 对当前环境进行打包
 `vagrant box add hahaha ~/box/package.box  # 添加 package.box 镜像并命名为 hahaha`
