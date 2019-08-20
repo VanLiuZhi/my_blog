@@ -238,3 +238,9 @@ supervisorctl -c ./conf/supervisor.conf status 查看状态
 ```
 
 以上的命令都是显示的指定配置文件的形式
+
+## sed 流编辑器工具
+
+一个非常强大的文本处理工具
+
+sed -n '3,9p' filename 获取3到9行的内容
