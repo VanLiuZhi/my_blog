@@ -197,3 +197,7 @@ node编程中最重要的思想就是模块化，import和require都是被模块
 1，给vue组件绑定事件时候，必须加上native ，不然不会生效（监听根元素的原生事件，使用 .native 修饰符）
 2，等同于在自组件中：
    子组件内部处理click事件然后向外发送click事件：$emit("click".fn)
+
+# Object.keys(object)
+
+Object.keys(object) 对一个对象使用，返回对象键值组成的数组，对象为{}，返回空数组[]，可以Object.keys(object).length的方式判断对象是否为空
