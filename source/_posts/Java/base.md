@@ -550,6 +550,14 @@ ArrayList<Integer>中的Integer称为实际类型参数
 
 类型通配符一般是使用?代替具体的类型参数。例如 List<?> 在逻辑上是List<String>,List<Integer> 等所有List<具体类型实参>的父类
 
+## 反射
+
+getClass()
+getName()
+forName()
+
+
+
 ## 20 注解
 
 包含三种标准注解和四种元注解
