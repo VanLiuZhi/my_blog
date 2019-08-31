@@ -244,3 +244,33 @@ supervisorctl -c ./conf/supervisor.conf status 查看状态
 一个非常强大的文本处理工具
 
 sed -n '3,9p' filename 获取3到9行的内容
+
+## journalctl 日志管理
+
+和systemctl类似的很强大的日志查看命令
+
+```
+# follow
+journalctl -f
+
+# 显示最近10条
+journalctl -n
+
+# 显示最近20条
+journal -n 20 
+
+# 显示磁盘占用情况
+journal --disk-usage
+
+# 查看一段时间内的
+journalctl --since "2015-01-10" --until "2015-01-11 03:00"
+
+# 过滤
+journalctl -u 服务名
+```
+
+`journalctl -f -u kubelet` 让系统一直打印kubelet服务产生的日志
+
+## ifconfig
+
+如果没有这个包，通过yum search ifconfig，查看这个命令是在哪个包里面，yum install net-tools.x86_64安装后就可以使用ifconfig了
