@@ -144,7 +144,7 @@ ssh和sshd的差别，一定要牢记，不要混淆，别人连接你，你要�
 
 相关命令
 
-```
+```s
 systemctl restart sshd.service
 
 systemctl status sshd.service #查看ssh服务的状态
@@ -159,7 +159,7 @@ systemctl stop sshd.ervice #停止
 ```
 
 权限配置
-```
+```s
 chmod 700 /home/Hadoop/.ssh
 chmod 644 /home/Hadoop/.ssh/authorized_keys
 如果权限不对，会导致文件无法读取导致失败，还有这些配置是跟着各个用户走的，它们的用户组也必须正确
