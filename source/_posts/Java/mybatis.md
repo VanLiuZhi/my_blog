@@ -33,7 +33,7 @@ Spring Boot 会自动加载 spring.datasource.* 相关配置，数据源就会�
 
 spring boot配置文件
 
-```
+```s
 mybatis:
   mapper-locations: classpath:/mybatis/mapper/*.xml
   config-location:  classpath:/mybatis/config/mybatis-config.xml
@@ -43,7 +43,7 @@ mybatis:
 
 在mybatis的xml配置文件中
 
-```
+```s
 <typeAliases>
     <package name="com.yukong.chapter4.entity"/>
 </typeAliases>
