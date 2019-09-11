@@ -137,3 +137,24 @@ RBAC设计思想
 白名单直接登录，否则跳转到登录页面，登录页面表单接受用户名和密码，调用`store`中`user`的`actions`中的`Login`，在Login中去请求真正的登录接口
 
 
+## table组件
+
+table组件使用总结
+
+```html
+<a-table :columns="columns" :dataSource="data" :rowKey="record => record.id"></a-table>
+```
+
+- columns配置列表数据，dataSource为数据源
+需要配置唯一key，columns和dataSource都需要，columns 配置dataIndex或key，数据源最好包含一个唯一值，在`:rowKey="record => record.id`指定
+
+- columns中的customRender属性，`Function(text, record, index)` 参数分别为当前行的值，当前行数据，行索引，可以用这个对数据做复杂处理，比如把整形状态值变成文本值
+JSX语法：可以在customRender中使用JSX语法返回HTML，这样就不需要用scopedSlots在标签中写代码了
+
+- 插槽：并不是很理解(语言本身理解的还不够深入)，不过2.6要废弃这个属性了，说明一下用法（大概的总结就是下面的内容，可以自行测试）
+slots: { title: 'customTitle' } 这个是用法是`<span slot="customTitle"><a-icon type="smile-o" /> Name</span>`，title是表格的属性，指明表头名称的，通过插槽可以自定义这个名称，这里自定义就是加了一个icon (总结就是可以自定义一下表格本身的属性，目前已知可以修改标题，还可以filterIcon，自定义 fiter 图标)
+scopedSlots: { customRender: 'name' } 一般就这么定义，name就是当前的字段，上面的customTitle是自定义的，然后`<span slot="name" slot-scope="text, record">`或`<span slot="name" slot-scope="name">`，这里的参数对应上面customRender属性，只用一个参数，比如这里的`name`就是当前字段的值 (总结就是可以获取到当前字段和行，索引的数据，方便自定义字段的渲染)
+
+这里的两个属性都是对象的形式，如果要自定义字段，可以不用配置这两个属性的，可以直接`<span slot="name" slot-scope="text">{{text}}</span>`，name是字段名，text是可以随便命名的
+
+- 关于表格的对齐，有标题和内容，测试发现对齐属性配置在columns中，对标题和内容都生效，可以全局定义css来覆盖，需要的地方再使用属性来配置

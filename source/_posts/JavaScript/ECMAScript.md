@@ -198,6 +198,12 @@ node编程中最重要的思想就是模块化，import和require都是被模块
 2，等同于在自组件中：
    子组件内部处理click事件然后向外发送click事件：$emit("click".fn)
 
-# Object.keys(object)
+## Object.keys(object)
 
 Object.keys(object) 对一个对象使用，返回对象键值组成的数组，对象为{}，返回空数组[]，可以Object.keys(object).length的方式判断对象是否为空
+
+## forEach 跳出迭代和终止迭代
+
+总的来说continue和break是for循环才有的，forEach是迭代数组，不应该有这个功能，但有时又需要
+continue可以通过return true来实现
+break通过try语句来实现，在需要终止的地方，通过throw new Error("EndIterative")手动触发异常来结束后续的循环
