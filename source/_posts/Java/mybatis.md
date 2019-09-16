@@ -74,3 +74,24 @@ public void save() {
 
 通过注解自动装配userMapper，然后给实体类实例赋值，调用userMapper的save方法保存数据
 
+## xml传递参数
+
+接口的实现由xml来编写，接口传递参数可以由xml接收到，xml中用 `#{}` 的形式引用参数
+
+1. 单一参数
+
+```
+接口定义参数 String id
+
+在 xml 中
+where ID = #{id,jdbcType=VARCHAR}
+
+接口定义参数是对象 Object User
+
+在 xml 中
+values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR})
+
+直接访问对象的属性就行了，对象要是一个Bean
+```
+
+要指明parameterType，即参数类型，有些资料又说不需要，可能和版本有关

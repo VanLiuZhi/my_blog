@@ -155,6 +155,48 @@ JSX语法：可以在customRender中使用JSX语法返回HTML，这样就不需�
 slots: { title: 'customTitle' } 这个是用法是`<span slot="customTitle"><a-icon type="smile-o" /> Name</span>`，title是表格的属性，指明表头名称的，通过插槽可以自定义这个名称，这里自定义就是加了一个icon (总结就是可以自定义一下表格本身的属性，目前已知可以修改标题，还可以filterIcon，自定义 fiter 图标)
 scopedSlots: { customRender: 'name' } 一般就这么定义，name就是当前的字段，上面的customTitle是自定义的，然后`<span slot="name" slot-scope="text, record">`或`<span slot="name" slot-scope="name">`，这里的参数对应上面customRender属性，只用一个参数，比如这里的`name`就是当前字段的值 (总结就是可以获取到当前字段和行，索引的数据，方便自定义字段的渲染)
 
-这里的两个属性都是对象的形式，如果要自定义字段，可以不用配置这两个属性的，可以直接`<span slot="name" slot-scope="text">{{text}}</span>`，name是字段名，text是可以随便命名的
+这里的两个属性都是对象的形式，如果要自定义字段，首先就是要知道插槽到底是指向哪一个字段，slots是可以不用配置的，默认名称就是当前字段名，然后配置scopedSlots: { customRender: 'name' }，`<span slot="name" slot-scope="text">{{text}}</span>`，slot-scope才会生效
 
 - 关于表格的对齐，有标题和内容，测试发现对齐属性配置在columns中，对标题和内容都生效，可以全局定义css来覆盖，需要的地方再使用属性来配置
+
+- 分页，框架默认前端分页，分页可以通过配置来自定义，不过这个配置文档描述相当不友好，这个分页依赖组件，个人认为最好的形式是禁用table的分页，自己使用分页组件
+总之这一块设计的很不好，应为你用table默认的分页，就要去配置属性，然而配置属性的文档是模糊的，比如onShowSizeChange才是table配置中的每页数目改变的事件回调，而组件中确是showSizeChange，这些不确定的配置导致很多问题，下面是一个配置用例，注意onShowSizeChange，其它属性可参考分页组件(猜错这可能是遗留的BUG)，个人猜测defaultCurrent是组件需要读取的，但是用pageNo也可以，这里新加了两个属性，方便读取数据的时候知道当前页数和条目
+
+总结：存在bug肯定是逃不掉的了，或者说是泛用性很强，但是onShowSizeChange是你看文档看不出来的，ant-vue-pro框架也提供了封装的方法，不过不是所有的数据请求加载都是在页面这一环的，我想更自由一点，只能自己梳理文档
+
+```js
+pagination: {
+    // defaultCurrent: 1, // 默认的当前页数
+    // defaultPageSize: 10, // 默认每页显示数量
+    pageNo: 1,
+    pageSize: 20,
+    showSizeChanger: true, // 显示可改变每页数量
+    showQuickJumper: true, // 显示页数跳转
+    pageSizeOptions: ['10', '20', '30', '50', '100'], // 每页数量选项
+    showTotal: total => `共 ${total} 条数据`, // 显示总数
+    onShowSizeChange: (current, pageSize) => {
+        // console.log(current) // current 当前页
+        this.pagination.pageSize = pageSize
+        this.pagination.pageNo = current
+        this.getTableData(current, pageSize)
+    }, // 改变每页数量时更新显示，并请求接口
+    onChange: (page, pageSize) => {
+        this.pagination.pageSize = pageSize
+        this.pagination.pageNo = page
+        this.getTableData(page, pageSize)
+    }, // 点击页码事件
+    total: 0 // 总条数
+}
+```
+
+后端返回分页数据格式
+
+```js
+{
+    data: []
+    pageNo: 3
+    pageSize: 10
+    totalCount: 23
+    totalPage: 3
+}
+```
