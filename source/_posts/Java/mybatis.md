@@ -95,3 +95,16 @@ values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHA
 ```
 
 要指明parameterType，即参数类型，有些资料又说不需要，可能和版本有关
+
+## xml标签
+
+1. select
+select – 书写查询sql语句
+select中的几个属性说明：
+id属性：当前名称空间下的statement的唯一标识。必须。要求id和mapper接口中的方法的名字一致。
+resultType：将结果集映射为java的对象类型(记得用完整路径该对象)。必须（和 resultMap 二选一）
+parameterType：传入参数类型。可以省略
+
+2. resultMap
+
+MyBatis中在查询进行select映射的时候，返回类型可以用resultType，也可以用resultMap，resultType是直接表示返回类型的，而resultMap则是对外部ResultMap的引用，但是resultType跟resultMap不能同时存在

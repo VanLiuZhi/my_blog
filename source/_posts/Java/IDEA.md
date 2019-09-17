@@ -57,6 +57,6 @@ IDEA更新classpath的方法：【Build】->【Build Project】，如果你设�
 
 全自动设置方式，打开运行时编译：
 
-1. build -> compile -> buildProjectAutomatically
+1. build -> compile -> build Project Automatically
 2. 快捷键Ctrl + Shift + Alt + /，选择Registry
 3. 勾选 Compiler autoMake allow when app running

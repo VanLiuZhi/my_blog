@@ -358,4 +358,6 @@ element.scrollHeight - element.scrollTop === element.clientHeight // 判断是�
 
 element.scrollTop = 0 // 返回顶部
 
+注意，滚动条的scrollTop等属性是设置div超过当前高度滚动时才会有的，如果设置div高度2000px，此时出现的滚动条是浏览器的机制，该属性scrollTop为0
+
 

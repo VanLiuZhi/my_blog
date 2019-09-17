@@ -207,3 +207,11 @@ Object.keys(object) 对一个对象使用，返回对象键值组成的数组，
 总的来说continue和break是for循环才有的，forEach是迭代数组，不应该有这个功能，但有时又需要
 continue可以通过return true来实现
 break通过try语句来实现，在需要终止的地方，通过throw new Error("EndIterative")手动触发异常来结束后续的循环
+
+## hasOwnProperty
+
+判断对象是否拥有这个属性 data.hasOwnProperty('name') 在for循环一个对象中，可能需要这个检测，规范问题
+
+## slice 字符串数组切片
+
+"name".slice(0, -1) 从开始切片到倒数第一个，name变成nam，该方法数组也拥有
