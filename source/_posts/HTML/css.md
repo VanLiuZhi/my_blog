@@ -360,4 +360,13 @@ element.scrollTop = 0 // 返回顶部
 
 注意，滚动条的scrollTop等属性是设置div超过当前高度滚动时才会有的，如果设置div高度2000px，此时出现的滚动条是浏览器的机制，该属性scrollTop为0
 
+## calc 计算函数
 
+`:style="{ display: 'inline-block', width: 'calc(50% - 12px)' }"` 
+可以实现动态的高度，比如一个dom1要使用剩余的20%的高度，但是已经存在了一个固定高度为20px的dom2，其它元素已经使用了剩下的80%，通过计算`calc(20% - 12px)`保证dom1加上dom2有20%
+
+## event 事件
+
+事件的回调函数是有参数的，默认有这个参数event，这个参数对象包含了事件的很多属性
+
+event.preventDefault(); 取消事件的默认行为，因为有些事件它就是有默认行为的，可以用这个取消

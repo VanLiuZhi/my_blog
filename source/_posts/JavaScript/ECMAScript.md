@@ -215,3 +215,7 @@ break通过try语句来实现，在需要终止的地方，通过throw new Error
 ## slice 字符串数组切片
 
 "name".slice(0, -1) 从开始切片到倒数第一个，name变成nam，该方法数组也拥有
+
+## in 语法
+
+和Python类似，不知道判断属性是否在对象或原型中

@@ -99,6 +99,7 @@ values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHA
 ## xml标签
 
 1. select
+
 select – 书写查询sql语句
 select中的几个属性说明：
 id属性：当前名称空间下的statement的唯一标识。必须。要求id和mapper接口中的方法的名字一致。
@@ -107,4 +108,13 @@ parameterType：传入参数类型。可以省略
 
 2. resultMap
 
-MyBatis中在查询进行select映射的时候，返回类型可以用resultType，也可以用resultMap，resultType是直接表示返回类型的，而resultMap则是对外部ResultMap的引用，但是resultType跟resultMap不能同时存在
+MyBatis中在查询进行select映射的时候，返回类型可以用resultType，也可以用resultMap，
+resultType是直接表示返回类型的，而resultMap则是对外部ResultMap的引用，但是resultType跟resultMap不能同时存在
+
+```xml
+<resultMap id="UserWithRoleMap" type="com.zoctan.api.model.User" extends="UserMap">
+    <result column="role_id" jdbcType="BIGINT" property="roleId"/>
+    <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+</resultMap>
+```
+resultMap 通过extends继承另一个resultMap
