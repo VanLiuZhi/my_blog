@@ -1,11 +1,11 @@
 ---
-title: Java编程思想
+title: Java学习笔记
 date: 2019-04-05 00:00:00
 tags: [java, note]
 categories: Java
 ---
 
-Java 编程思想读书笔记
+Java 学习笔记
 
 <!-- more -->
 
@@ -475,6 +475,12 @@ dataType arrayRefVar[];  // 效果相同，但不是首选方法
 
 记住数组的定义是`类型`加上`[]`，double[] 作为数组类型声明，然后再写一个数组变量名，最后就组成了 dataType[] arrayRefVar
 
+常见写法:
+
+`int[] abc = new int[]{1, 2, 3};`
+
+
+
 
 
 ## 12 异常
@@ -556,7 +562,7 @@ ArrayList<Integer>中的Integer称为实际类型参数
 
 类型通配符一般是使用?代替具体的类型参数。例如 List<?> 在逻辑上是List<String>,List<Integer> 等所有List<具体类型实参>的父类
 
-## 反射
+## 16 反射
 
 getClass()
 getName()

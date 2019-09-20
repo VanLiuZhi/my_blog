@@ -204,3 +204,8 @@ pagination: {
 ## form 表单组件
 
 表单组件有其独特的用法，不再是单纯的双向绑定，自己提交参数的形式，使用form-create后，可以自动的收集和校验数据，不使用此方式就用传统的双向绑定
+双向绑定的方式就是常规的用法了，使用新的模式可以使用框架提供的API，建议用此模式
+
+可能会遇到的错误`Warning: You cannot set a form field before rendering a field associated with the value.`，出现这种情况一般是dom还没渲染，或者是字段没注册，没被组件接管不能用API
+
+- 数据赋值
