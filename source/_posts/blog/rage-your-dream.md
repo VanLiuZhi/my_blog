@@ -5,7 +5,7 @@ tags: [javascript, technology]
 categories: technology 技术
 ---
 
-Rage Your Dream
+Rage Your Dream 项目开发笔记
 
 <!-- more -->
 

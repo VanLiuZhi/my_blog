@@ -206,11 +206,11 @@ sudo hostnamectl set-hostname master
 2. 然后配置/etc/hosts
 
 ```s
-192.168.59.101 master
+192.168.59.101 cluster1
 
-192.168.59.102 node1
+192.168.59.102 cluster2
 
-192.168.59.103 node2
+192.168.59.103 cluster3
 ```
 
 3. 关闭防火墙、selinux和swap
@@ -235,12 +235,14 @@ sudo sed -i 's/.*swap.*/#&/' /etc/fstab
 sudo touch /etc/sysctl.d/k8s.conf && sudo vim /etc/sysctl.d/k8s.conf
 
 net.bridge.bridge-nf-call-ip6tables = 1
-
 net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
 
 执行：
-sudo sysctl --system
-使内核参数生效(sysctl --system，这个会加载所有的sysctl配置，sysctl -p默认无参数只加载/etc/sysctl.conf，内容来自网络，可能两个都可以，这里选用第一种)
+sudo modprobe br_netfilter
+sysctl -p /etc/sysctl.d/k8s.conf 
+sudo sysctl --system 不推荐
+使内核参数生效(sysctl --system，这个会加载所有的sysctl配置，sysctl -p默认无参数只加载/etc/sysctl.conf)
 ```
 
 5. 配置国内yum源

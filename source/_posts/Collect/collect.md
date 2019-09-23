@@ -389,3 +389,11 @@ https://blog.csdn.net/songfei_dream/article/details/93161900
 [产品大牛](http://www.pmdaniu.com/) 什么有很多完整的产品原型可以借鉴
 
 [磨刀](https://modao.cc/pricing) 快速出 ui 原型
+
+
+## SSR
+
+一键搭建shadowsocksR 登录VPS之后，复制以下代码，在xshell里右键选择粘贴，然后回车： 
+wget -N --no-check-certificate https://raw.githubusercontent.com/ToyoDAdoubi/doubi/master/ssrmu.sh && chmod +x ssrmu.sh && bash ssrmu.sh
+
+加密选5 aes-128-ctr

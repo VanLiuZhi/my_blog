@@ -93,6 +93,8 @@ sudo ./VBoxLinuxAdditions.run
 
 通过设置dns解决了，在/etc/resolv.conf添加一个nameserver 8.8.8.8，执行yum clean all 和yum makecache
 
+加了8.8.8.8还不行，nameserver 114.114.114.114 加上
+
 ## 网络配置
 
 默认情况下，采用Provider的NAT网络模式，在虚拟机中可以访问宿主机，也可以使用宿主机的外网路由上网。
@@ -195,3 +197,4 @@ ssh-keygen
 ssh-copy-id root@192.168.59.102
 
 不同身份的用户都需要执行这两步，上面只是让root用户可以连接，vagrant也需要执行一次，就是说不同的用户要用自己的公钥
+
