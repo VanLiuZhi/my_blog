@@ -483,8 +483,6 @@ registry.aliyuncs.com/google_containers/pause        3.1
 
 也就是只差着flannel镜像了，通过拉取可以拉取的重新打标签的方式，如此镜像就准备好了
 
-
-
 执行上面集群初始化返回的命令
 
 ```s
@@ -509,10 +507,10 @@ kubectl get nodes 检查集群状态
 初始化(所有机器都执行)
 $ kubeadm reset
 大概是移除网络，不一定需要，如果网络已有了可以执行清理，通过ifconfig查看
-$ ifconfig cni0 down && ip link delete cni0
-$ ifconfig flannel.1 down && ip link delete flannel.1
+$ sudo ifconfig cni0 down && sudo ip link delete cni0
+$ sudo ifconfig flannel.1 down && sudo ip link delete flannel.1
 删除cni文件
-$ rm -rf /var/lib/cni/
+$ sudo rm -rf /var/lib/cni/
 ```
 
 这里列出了v0.11.0-amd64版本的yml
@@ -697,6 +695,7 @@ spec:
         args:
         - --ip-masq
         - --kube-subnet-mgr
+        - --iface=eth1
         resources:
           requests:
             cpu: "100m"

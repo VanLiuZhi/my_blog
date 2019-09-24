@@ -91,9 +91,11 @@ sudo ./VBoxLinuxAdditions.run
 
 通过vagrant下载的centos Box，默认设置，在mac上可以访问网络，在windows上就不行，不知道是不是公司网络的原因
 
-通过设置dns解决了，在/etc/resolv.conf添加一个nameserver 8.8.8.8，执行yum clean all 和yum makecache
+通过设置dns解决了，在/etc/resolv.conf添加一个nameserver 8.8.8.8，执行sudo yum clean all && sudo yum makecache
 
 加了8.8.8.8还不行，nameserver 114.114.114.114 加上
+
+确实是网络问题导致dns无法解析，上面的配置也不一定每次都好使
 
 ## 网络配置
 

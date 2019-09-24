@@ -161,7 +161,7 @@ pkill -signal 进程PID或进程名称，要知道有什么信号，使用kill -
 
 执行命令 `cat /etc/crontab`
 
-```
+```s
 [root@123 ~]# cat /etc/crontab 
 SHELL=/bin/bash
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
@@ -201,7 +201,7 @@ MAILTO=root
 
 包名：操作已经安装的软件包时，使用包名，是搜索/var/lib/rpm/中的数据库。
 
-```
+```s
 rpm  -ivh  包全名
 
 选项：
@@ -230,7 +230,7 @@ Supervisord 是用 Python 实现的一款的进程管理工具，supervisord 要
 
 命令分为supervisord和supervisorctl两种类型，supervisord用于初始化和启动服务，然后基本都是用supervisorctl来管理进程
 
-```
+```s
 supervisord -c ./conf/supervisor.conf  启动服务
 supervisorctl -c ./conf/supervisor.conf reload
 supervisorctl -c ./conf/supervisor.conf restart 进程名称
@@ -249,7 +249,7 @@ sed -n '3,9p' filename 获取3到9行的内容
 
 和systemctl类似的很强大的日志查看命令
 
-```
+```s
 # follow
 journalctl -f
 
@@ -273,4 +273,4 @@ journalctl -u 服务名
 
 ## ifconfig
 
-如果没有这个包，通过yum search ifconfig，查看这个命令是在哪个包里面，yum install net-tools.x86_64安装后就可以使用ifconfig了
+如果没有这个包，通过yum search ifconfig，查看这个命令是在哪个包里面，`yum install net-tools.x86_64`安装后就可以使用ifconfig了
