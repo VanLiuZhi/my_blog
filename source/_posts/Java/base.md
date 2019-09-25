@@ -489,6 +489,26 @@ dataType arrayRefVar[];  // 效果相同，但不是首选方法
 
 容器类是整个语句最重要的一部分，或者称为集合框架，记住，定义容器类的时候，最好使用泛型
 
+### 自动装箱
+
+```java
+ArrayList<Integer> list = new ArrayList<>();
+
+list.add(3);
+```
+
+上诉的add操作将自动的变成 `list.add(Integer.ValueOf(3));`，这种变换称之为自动装箱(autoboxing)
+
+将一个包装器对象赋值给一个基本对象，称为自动拆箱
+
+```java
+int n = list.get(i);
+
+int n = list.get(i).intValue();
+```
+
+装箱和拆箱是编译器认可的，而不是虚拟机。编译器在生成类的字节码时，插入必要的方法调用。虚拟机只是执行这些字节码。
+
 
 ## 12 异常
 
