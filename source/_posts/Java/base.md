@@ -33,7 +33,7 @@ JNDI(Java Naming and Directory Interface,Java命名和目录接口)是SUN公司�
 
 配置环境变量，保证 java javac java -version 都能输出正确信息
 
-## 1 基本内容
+## 基本内容
 
 return 只能返回一个对象，python可以返回多个，面向对象体现更明显，强类型
 
@@ -41,7 +41,7 @@ return 只能返回一个对象，python可以返回多个，面向对象体现�
 
 面向对象集中在7，8，9，10章节(Java编程思想)，有其它语言的基础可以快速过一遍，先理解11章后的内容
 
-## 2 一切都是对象
+## 一切都是对象
 
 对象成员不进行初始化会设定默认值(原始类型才这样，引用类型都是null)，不过对于局部变量不适用，也就是在方法内的变量都必须初始化。
 
@@ -116,7 +116,13 @@ Integer j = new Integer(10);     // 对象引用  java 1.5以后支持自动装�
 int(原始类型)   一般做为数值参数就够了   
 integer (封装类型)  一般做类型转换的时候用的较
 
-## 3 操作符
+### 大数值
+
+java.math中的 `BigInteger` 和 `BigDecimal` 可以处理包含任意长度数字序列的数值
+BigInteger 任意精度的整数运算
+BigDecimal 任意精度的浮点数运算
+
+## 操作符
 
 别名对象, 可以强制类型转换
 equals()
@@ -150,11 +156,34 @@ System.out.println(++ i);
 Python里面没有++这种做法，最好Java也用 i += 1
 
 
-## 4 控制执行流程
+## 控制执行流程
 
 不允许将一个数字作为布尔值使用，应该if(a==0)，for循环语法，for(int i : range(100))
 
-## 5 初始化与清理
+for 循环的3部分组成 for(int i;i<=10;i++)，在for循环中定义的变量i作用域只在for循环内，要在循环外使用，应该一开始就声名变量
+
+不允许在嵌套块中对已存在的变量再从声名，c++可以
+
+while 和 do while 接收一个布尔变量作为循环执行条件
+
+switch语言，case 和 break case标签类型可以是char，byte，short，int常量，枚举常量，SE7可以使用字符串字面量
+
+break和continue 控制循环执行，可以加标签跳到指定标签处，在嵌套循环中发挥作用，如果没有嵌套，标签写不写都可以
+```java
+int a = 1;
+labels:
+for (int j = 1; j<=10; j += 1) {
+    System.out.println(123);
+    a += 1234;
+    for (int ii=0; ii<=2; ii++) {
+        if (a == 12345) {
+            break labels;
+        }
+    }
+}
+```
+
+## 初始化与清理
 
 构造器：构造器的命名和类名相同，可以带访问修饰符，不能有返回值。
 
@@ -167,7 +196,28 @@ this关键字：通常不需要显示的写出它来，和python不一样，另�
 垃圾回收：
 1.对象可能不被垃圾回收 2.垃圾回收并不等于析构
 
-## 6 访问控制
+## 面向对象
+
+类之间的关系: 继承，接口实现，依赖，聚合，关联，直接关联
+
+方法签名: 只有方法名，参数类型才能描述方法签名，不包含返回类型，所以不能定义两个返回类型不同方法名参数类型相同的方法
+
+在构造器中调用this()将调用另外的构造器，根据参数来决定
+
+静态块的初始化
+```java
+private static int nextId;
+
+static
+{
+    Random generator = new Random();
+    nextId = generator.nextInt(1000);
+}
+```
+
+finalize方法: 可以为类添加finalize方法，在垃圾回收器清除对象之前调用
+
+## 访问控制
 
 java后缀的源代码通常称为编译单元，每个编译单元内只能有一个public类。
 
@@ -193,7 +243,7 @@ protected: 受保护的
 
 再次强调，类前面不加修饰，权限就是包访问权限，当前包内的其它类可以访问，跨包不行。
 
-## 7 复用类
+## 复用类
 
 组合，继承，代理
 
@@ -288,6 +338,8 @@ private不能被子类方法覆盖，private类型的方法默认是final类型�
 final修饰的变量有三种：静态变量、实例变量和局部变量，分别表示三种类型的常量。
 注意：final变量定义的时候，可以先声明，而不给初值，这中变量也称为final空白，无论什么情况，编译器都确保空白final在使用之前必须被初始化。
 
+final 关键字只是表示存储在变量中的对象的引用不会再指向其它对象，对象本身可以被修改(限于可更改对象)
+
 2. static
  
 static表示“全局”或者“静态”的意思，用来修饰成员变量和成员方法，也可以形成静态static代码块，但是Java语言中没有全局变量的概念。
@@ -304,8 +356,10 @@ static表示“全局”或者“静态”的意思，用来修饰成员变量�
  
 3. static和final一起使用
  
-static final用来修饰成员变量和成员方法，可以理解为“全局变量，类常量”
- 
+static final用来修饰成员变量和成员方法，可以理解为“全局变量，类常量，静态常量”
+
+例如: System类的 `public static final PrintStream out = ...` 调用 System.out
+
 对于变量，表示一旦给值就不可修改，并且通过类名可以访问。
 对于方法，表示不可覆盖，并且可以通过类名直接访问。
  
@@ -357,7 +411,7 @@ public class Beetle extends Insect {
 3. 一般来说类的代码在初次使用时才会加载，这通常指加载发生于创建类的第一个对象之时（但是访问static域或static方法时，也会加载。构造器也是static方法，它没有显示的表示出来，更准确的说，类是在其任何static成员被访问时才加载的）
 4. 按照继承先加载对象，继承最顶层的类先被加载，然后是下面的类。然后创建对象，基本类型设置为默认值，对象的引用设置为null（通常是将对象内存二进制设置为零），然后是构造器调用。
 
-## 8 多态
+## 多态
 
 Polymoph 多态
 
@@ -410,7 +464,7 @@ Java中的所有方法都是通过动态绑定来实现多态的。
 {% endblockquote %}
 
 
-## 9 接口
+## 接口
 
 接口和内部类为我们提供了一种将接口与实现分离的更加结构化的方法
 
@@ -457,14 +511,14 @@ class A extends B implements C, D {}
 
 在JavaSE8中，可以在接口中定义默认方法，default关键字修饰。接口的在实现的时候，默认方法可以不用覆盖
 
-## 10 内部类
+## 内部类
 
 将一个类的定义放在另一个类的定义中，称为内部类（暂时跳过这一章节）
 
 this的常见用法：调用构造器，直接this()。调用方法，指代当前调用对象。由于大括号内封闭作用域，如果形参定义了和对象成员同名的属性，直接使用该名称无法取到对象成员，此时应该用this关键字。
 
 
-## 11 持有对象
+## 持有对象
 
 该章节设计到很多设计模式，体会其中的思想
 
@@ -486,7 +540,7 @@ Foreach 也可以用于任何Collection对象
 
 关于Map，HashMap用于快速访问，TreeMap始终让键保持在排序状态(类似二叉树插入)，LinkedHashMap保持插入顺序，也提供散列提供快速访问的能力
 
-1. 数组
+### 数组
 
 数组声明方法：
 
@@ -508,7 +562,47 @@ dataType arrayRefVar[];  // 效果相同，但不是首选方法
 `char[] words = {'1', '2'};`
 `String[] words = {"1", "2"};` // 字符和字符串是不同的
 
-2. 字符串
+声名二维数组: `int[][] array`
+
+打印数组: Arrays.toString(a) 该方法会将数组拼成字符串
+
+数组值拷贝(不是引用): `int[] array = Arrays.copyOf(array1, array1.length`，可以调整长度的值，做的扩充数组，多余的元素会被赋初值，int为0，booler为false，如果是小于原长度，则截取，只拷贝前面的数值
+
+数组排序: Arrays.sort()
+
+### 字符串
+
+1. 基本概念
+字符串由char值序列组成，char数据类型是一个采用UTF-16编码表示Unicode码点的代码单元，大多数的常用Unicode字符串使用一个代码单元就可以表示，而辅助字符需要一对代码单元表示
+
+码点和代码单元可能是一个需要去了解的概念:
+- 码点: 就是某个任意字符在Unicode编码表中对应的代码值
+- 代码单元: 是在计算机中用来表示码点的，大部分码点只需要一个代码单元表示，但是有一些是需要两个代码单元表示的
+
+```java
+public String(int[] codePoints, int offset, int count) // 可以用一个由码点值组成的数组来创建字符串
+String greeting = "Hello";
+int[] array = greeting.codePoints().toArray();
+String str = new String(array, 0, array.length);
+```
+
+
+length方法返回代码单元数量，实际长度即码点数调用`int cpCount = "Hello".codePointCount(0, "Hello".length());`，由于这是一个比较简单的纯英文字符串，码点数量和代码单元都是5
+
+获取指定位置的代码单元: `str.charAt(0)` 返回0位置的代码单元
+
+获取指定位置的码点: `str.offsetByCodePoints(0, index); int cp = greeting.codePointAt(index);`
+
+2. 常用方法和操作
+字面量也可以调用很多方法
+
+例子：
+```java
+str.length();
+str.equals();
+
+str != null && str.length() != 0 // 检查既不是null也不是空串
+```
 
 截取操作: subString(0, 3) 实例方法
 join方法合并字符串，可以指定分隔符，静态方法
@@ -518,6 +612,18 @@ s = String.join("mn", list);
 
 s = String.join("mn", "a", "b");
 ```
+
+3. 构建字符串
+
+拼接字符串的效率是低下的，每次连接字符串都需要频繁的创建对象，可以使用StringBuilder类来实现
+
+```java
+StringBuilder builder = new StringBuilder();
+builder.append(character or string);
+String completedString = builder.toString();
+```
+
+StringBuilder 和 StringBuffer 两者都有相同的API，StringBuffer运行在多线程中操作，单线程用StringBuilder
 
 ### 容器类
 
@@ -544,7 +650,7 @@ int n = list.get(i).intValue();
 装箱和拆箱是编译器认可的，而不是虚拟机。编译器在生成类的字节码时，插入必要的方法调用。虚拟机只是执行这些字节码。
 
 
-## 12 异常
+## 异常
 
 一个异常的例子：throw new NullPointerException("abc")
 
@@ -562,9 +668,7 @@ try {
 }
 ```
 
-## 13 字符串
-
-## 14 类型信息
+## 类型信息
 
 `本章重点，class后缀文件，和类加载器`
 
@@ -574,7 +678,7 @@ Class对象，它是一个特殊的对象，每当编译一个新类就会产生
 所以的类对象都是在对其第一次使用的时候，动态的加载到JVM中的。使用new关键字创建类的新对象被当作对类的静态成员的引用。
 
 
-## 15 泛型
+## 泛型
 
 泛型使用过程中，操作的数据类型被指定为一个参数，这种参数类型可以用在类、接口和方法中，分别被称为泛型类、泛型接口、泛型方法。
 
@@ -646,14 +750,26 @@ extends 关键字来限制泛型参数的超类 <T extends Comparable> 这样实
 这是一个很重要的概念，无论何时定义一个泛型类型，都自动提供了一个相应的原始类型
 
 
-## 16 反射
+## 反射
 
 getClass()
 getName()
 forName()
 
+## 输入与输出
 
-## 20 注解
+Scanner类实现标准输入流(可以留意构造函数，它指定了流的来源)，在调用读取输入方法的时候，会阻塞进程等待输入，得到输入后程序继续
+
+```java
+String greeting = "Hello";
+Scanner in = new Scanner(System.in);
+System.out.println("what is your name?");
+String name = in.nextLine();
+System.out.println(name);
+```
+
+
+## 注解
 
 包含三种标准注解和四种元注解
 
@@ -689,7 +805,7 @@ jdk内置包使用方法总结
 
 一个插件，减少对象操作的代码编写
 
-## 21 疑问与解答
+## 疑问与解答
 
 1. this关键字
 
