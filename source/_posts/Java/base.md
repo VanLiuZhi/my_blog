@@ -217,6 +217,10 @@ static
 
 finalize方法: 可以为类添加finalize方法，在垃圾回收器清除对象之前调用
 
+### 包
+
+补充一个知识点，静态导入: 可以导入静态方法和静态域 `import static java.lang.System.out;` 这样`out.println()`就能打印内容了
+
 ## 访问控制
 
 java后缀的源代码通常称为编译单元，每个编译单元内只能有一个public类。
