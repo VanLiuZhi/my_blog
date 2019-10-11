@@ -166,7 +166,7 @@ for 循环的3部分组成 for(int i;i<=10;i++)，在for循环中定义的变量
 
 while 和 do while 接收一个布尔变量作为循环执行条件
 
-switch语言，case 和 break case标签类型可以是char，byte，short，int常量，枚举常量，SE7可以使用字符串字面量
+switch语法，case 和 break case标签类型可以是char，byte，short，int常量，枚举常量，SE7可以使用字符串字面量
 
 break和continue 控制循环执行，可以加标签跳到指定标签处，在嵌套循环中发挥作用，如果没有嵌套，标签写不写都可以
 ```java
@@ -250,6 +250,8 @@ protected: 受保护的
 ## 复用类
 
 组合，继承，代理
+
+如果子类的构造器没有显示地调用超类的构造器，则将自动地调用超类默认(没有参数)的构造器。如果超类没有不带参数的构造器，并且在子类的构造器中又没有显示地调用超类的其他构造器，则Java编译器报错。
 
 每一个非基本类型对象都有一个toString方法，类似python的 `__str__`
 

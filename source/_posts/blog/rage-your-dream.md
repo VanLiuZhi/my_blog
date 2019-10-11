@@ -27,6 +27,29 @@ Rage Your Dream 项目开发笔记
 mock的请求不会在浏览器被记录的，它是一种js代码控制的行为，当然不知道是不是有其它办法，总之用了mock需要调试的话，使用console
 mock的初始化要先，保证被mock记录的URL都能被拦截到
 
+## 问题记录
+
+1. 关于集成通用tk.mybatis
+
+旧版本是不会在控制台有告警的，但是无法解析驼峰命名字段，使用注解也不行，升级了新版本后，字段解析正常，控制台会有告警
+依赖的使用也有争议
+```xml
+<!--mapper-->
+<!-- https://mvnrepository.com/artifact/tk.mybatis/mapper -->
+<dependency>
+    <groupId>tk.mybatis</groupId>
+    <artifactId>mapper</artifactId>
+    <version>4.0.3</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/tk.mybatis/mapper-spring-boot-starter -->
+<dependency>
+    <groupId>tk.mybatis</groupId>
+    <artifactId>mapper-spring-boot-starter</artifactId>
+    <version>1.2.4</version>
+</dependency>
+```
+
 ## 规范
 
 注释：
