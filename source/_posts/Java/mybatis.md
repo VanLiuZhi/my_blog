@@ -125,3 +125,11 @@ resultMap 通过extends继承另一个resultMap
 1. 定义实体类
 2. 写接口，接口要有注解，方法也要有注解，这样就ok了
 参考: https://blog.csdn.net/qq_33238935/article/details/85336429
+
+## mybatis扩展
+
+mybatis是在国内非常通用的MySQL，有很多延伸扩展
+
+### mybatis-generator
+
+简称MBG，是mybatis的逆向工程，由数据库表创建相关代码

@@ -274,3 +274,7 @@ journalctl -u 服务名
 ## ifconfig
 
 如果没有这个包，通过yum search ifconfig，查看这个命令是在哪个包里面，`yum install net-tools.x86_64`安装后就可以使用ifconfig了
+
+## du -sh 查看当前目录大小
+
+用于查看当前目录下所有文件合计大小
