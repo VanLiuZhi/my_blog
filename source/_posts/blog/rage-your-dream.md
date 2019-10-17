@@ -22,6 +22,8 @@ Rage Your Dream 项目开发笔记
 当你在main.js里声明了Vue.prototype.a = 1后，因为你的每一个vue组件都是一个Vue对象的实例，所以即使你没有在组件内部使用data(){return{……}}声明a，你依然可以在组件中通过this.a来访问。
 当然，你也可以在组件中添加一个变量a，这时你访问的就是你在组件中添加的a，而不再是之前在原型中添加的a了，当然你对组件的a继续修改即不会影响原型中的a和其他组建中的a，就类似于下面这段代码（Form是一个自定义对象类型，Vue也可以看作一个自定义对象类型，而每个.vue文件就是一个对象的实例）
 
+kafaka、keeplive、docker、influxdb、zookeerper，hive、kfka、storm、promethues、pinpoint、grafana、elk、hdfs、kibana、nexus、harbor、grafana、ambari、cerebro、otter、Weave Scope
+
 - mock请求
 
 mock的请求不会在浏览器被记录的，它是一种js代码控制的行为，当然不知道是不是有其它办法，总之用了mock需要调试的话，使用console
@@ -39,16 +41,17 @@ mock的初始化要先，保证被mock记录的URL都能被拦截到
 <dependency>
     <groupId>tk.mybatis</groupId>
     <artifactId>mapper</artifactId>
-    <version>4.0.3</version>
+    <version>4.1.5</version>
 </dependency>
 
 <!-- https://mvnrepository.com/artifact/tk.mybatis/mapper-spring-boot-starter -->
 <dependency>
     <groupId>tk.mybatis</groupId>
     <artifactId>mapper-spring-boot-starter</artifactId>
-    <version>1.2.4</version>
+    <version>2.1.5</version>
 </dependency>
 ```
+有关该问题的描述记录，在readme文件中查找
 
 ## 规范
 

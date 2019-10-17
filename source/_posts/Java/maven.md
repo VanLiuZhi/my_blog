@@ -29,3 +29,15 @@ POM 项目对象模型
 依赖管理
 
 自动构建，通过对应的插件Release实现自动构建
+
+## 打包
+
+通过IDEA就可以打包了，前提是要配置好pom文件，项目是maven工程
+
+目前已知打包会扫描测试部分的代码，测试不通过也不行。打包后得到jar包，用`java -jar api-1.0.jar`命名就可以运行，`api-1.0.jar.original`后缀的文件是给其它项目依赖用的(暂时不管，这个不能用来部署)
+
+## 导入包到当前仓库
+
+mvn install:install-file -DgroupId=com.ctg.itrdc.cache -DartifactId=ctg-cache-nclient -Dversion=2.4.0 -Dpackaging=jar -Dfile=/Users/liuzhi/Downloads/ctg-cache-nclient-2.4.0.jar
+
+修改对应的参数
