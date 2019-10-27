@@ -278,3 +278,17 @@ journalctl -u 服务名
 ## du -sh 查看当前目录大小
 
 用于查看当前目录下所有文件合计大小
+
+## saltstack
+
+saltstack是由python编写的采用c/s架构的自动化运维工具，由master和minion组成，使用ZeroMQ消息队列pub/sub方式通信，使用SSL证书签发的方式进行认证管理
+本身是支持多master的。saltstack除了可以通过在节点安装客户端进行管理还支持直接通过ssh进行管理
+运行模式为master端下发指令，客户端接收指令执行
+采用yaml格式编写配置文件，支持api及自定义python模块，能轻松实现功能扩展
+
+saltstack有一个saltstack master，而很多saltstack minon在初始化时会连接到该master上
+初始化时，minion会交换一个秘钥建立握手，然后建立一个持久的加密的TCP连接
+通常，命令起始于master的命令行中，master将命令分发minion上
+saltstack master可以同时连接很多minion而无需担心过载，这都归功于ZeroMQ
+由于minion和master之间建立了持久化连接，所以master上的命令能很快的到达minion上。minion也可以缓存多种数据，以便加速执行
+

@@ -218,4 +218,33 @@ break通过try语句来实现，在需要终止的地方，通过throw new Error
 
 ## in 语法
 
-和Python类似，不知道判断属性是否在对象或原型中
+和Python类似，判断属性是否在对象或原型中
+
+## async 和 await
+
+使用示例，async封装一个Promise对象，await等待执行结果返回，下列的searchModule方法被改造成一个Promise对象，
+await等待一个ajax请求返回，通过then的形式拿到结果(注意这里只是一个简单情况，Promise还可以返回错误情况)
+
+使用场景，把接口请求改成阻塞式的，虽然是异步的，但是阻塞了，等待请求结果。
+针对需要先拿到请求结果再去做操作的情况，这部分逻辑不用写在接口里面了，可以在调用接口的时候写在then里面
+
+```js
+async searchModule(params) {
+  await searchModule({keyName: params}).then(res => {
+    let code = res.data.code;
+    if (code === 200) {
+      this.restaurants = res.data.data || [];
+    } else {
+      that.$message({
+        message: res.data.msg,
+        type: "warning"
+      });
+    }
+  })
+}
+
+this.searchModule(queryString).then(() => {
+  let restaurants = this.restaurants;
+  cb(restaurants);
+});
+```
