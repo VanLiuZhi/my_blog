@@ -51,9 +51,18 @@ mysql> select now(), curdate(), sysdate(), curtime();
 +---------------------+------------+---------------------+-----------+
 ```
 
-
-
 ### concat 和 contcat_ws
 
 concat用来连接字符串，contcat_ws用来以分隔符参数来连接字符串
 `contcat_ws(',', 'a', 'b')  输出为：a,b`
+
+### case 排序把特定字段放在结果前面
+
+```sql
+select * from `equipment` order by case when (id='ZJXCA007804' or id='ZJXCA000695') then 0 else 1 end ,ismonitor desc
+```
+
+```py
+equipments.order_by(Case(When(id__in=[item.get('eqid', 0) for item in equipment_ids], then=0), default=1), '-ismonitor', 'id')
+```
+

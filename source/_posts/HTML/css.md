@@ -370,3 +370,7 @@ element.scrollTop = 0 // 返回顶部
 事件的回调函数是有参数的，默认有这个参数event，这个参数对象包含了事件的很多属性
 
 event.preventDefault(); 取消事件的默认行为，因为有些事件它就是有默认行为的，可以用这个取消
+
+## pre 
+标签原样展示文本内容，前提是字体设置为等宽字体`font-family: monospace;`
+`<pre style='word-wrap: break-word;white-space: pre-wrap;'>` 自动换行
