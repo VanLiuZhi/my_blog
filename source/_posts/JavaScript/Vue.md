@@ -405,3 +405,52 @@ computed: {
 <div class="info" v-for="(item, index) in itemList" :key="index"></div>
 <div class="info" v-for="(item, index) in itemList" :key="index"></div>
 ```
+
+## 数组对象做绑定，关于响应式原理
+
+`https://cn.vuejs.org/v2/guide/reactivity.html` 官方参考
+
+场景问题，通过后端来的数据需要迭代，迭代出来的数据无法进行双向绑定
+
+原因: `受现代 JavaScript 的限制 (而且 Object.observe 也已经被废弃)，Vue 无法检测到对象属性的添加或删除。由于 Vue 会在初始化实例时对属性执行 getter/setter 转化，所以属性必须在 data 对象上存在才能让 Vue 将它转换为响应式的`
+
+这句话的意思是，假如数组一开始就有了，那么初始化的时候就会对各个属性进行响应式转换，使得我们在对迭代出来的数据进行v-model的时候可以生效，但是当数据是在初始化后加载来的，就不行了。
+
+`解决方法`: 对于已经创建的实例，Vue 不允许动态添加根级别的响应式属性。但是，可以使用 Vue.set(object, propertyName, value) 方法向嵌套对象添加响应式属性，也就是新属性都通过Vue.set的方式添加，或`this.$set(el, 'isFold', false)`
+
+假如通过el.isFold = false的方法加入的属性，是没有响应式支持的
+
+- 多属性添加(没有测试过，详情看官网): 
+
+有时你可能需要为已有对象赋值多个新属性，比如使用 Object.assign() 或 _.extend()。但是，这样添加到对象上的新属性不会触发更新。在这种情况下，你应该用原对象与要混合进去的对象的属性一起创建一个新的对象。
+
+- 疑问
+
+另外，还留有一点疑惑的地方，如果后端直接返回的数组，好像是可以响应式的，但是对这个数组添加的属性却不行
+
+问题解决了，就是赋值给vue对象后，再添加属性不在具有响应式，需要用$set方法来添加，或者先添加完，再赋值
+
+```js
+// DataList为vue实例数据，data为借口返回数据
+
+// 情况1，可以有响应式，通过this.$set赋值
+that.DataList = data;
+that.DataList.forEach(el => {
+    this.$set(el, 'isFold', false);
+    this.$set(el, 'checked', false);
+})
+
+// 情况2，可以有响应式，因为data被修改后才赋值给vue属性DataList
+data.forEach(el => {
+    el.isFold = false;
+    el.checked = false;
+})
+that.DataList = data;
+
+// 情况3，新增的属性不具有响应式，因为data先赋值给vue属性DataList，然后再去添加属性
+that.DataList = data;
+that.DataList.forEach(el => {
+    el.isFold = false;
+    el.checked = false;
+})
+```
