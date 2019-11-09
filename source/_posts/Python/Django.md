@@ -347,6 +347,14 @@ print MyModel.objects.filter(name="my name").query
 
 F用来做运算，加减乘除。Q做复杂查询。
 
+### 查询对象Case
+
+```py
+equipments = equipments.order_by(
+    Case(When(id__in=[item.get('eqid', 0) for item in equipment_ids], then=0), default=1), '-ismonitor', 'id')
+```
+equipments中，先把id为特定条件的数据放到最前面，然后后面的数据按照`'-ismonitor', 'id'`的规则进行排序
+
 ### 查询集
 
 查询集，就是查询结果的集合。

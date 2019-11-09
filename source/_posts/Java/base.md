@@ -837,6 +837,25 @@ System.out.println(++ i);
 
 Python里面没有++这种做法，最好Java也用 i += 1
 
+### ...符号
+
+```java
+class Test {
+    static void MyTest(String... basePackages) {
+        System.out.println(basePackages.length);
+    }
+//    static void MyTest(String[] basePackages) {
+//        System.out.println(basePackages[2]);
+//    }
+    public static void main(String... args) {
+        MyTest(new String[]{"1", "2", "3"});
+        MyTest("1", "2", "3");
+    }
+}
+```
+
+大致上来说 `String...` 和 `String[]` 差不多，在上面的例子中，两种传参都可以(但是不推荐这样用)，但是参数类型换成数组的时候，`MyTest("1", "2", "3");`就不行了。另外此时两种MyTest方法不能同时存在，会被认为是方法重复。
+
 
 ## JVM
 
