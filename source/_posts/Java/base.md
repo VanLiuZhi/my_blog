@@ -33,6 +33,58 @@ JNDI(Java Naming and Directory Interface,Java命名和目录接口)是SUN公司�
 
 配置环境变量，保证 java javac java -version 都能输出正确信息
 
+## 关于版本
+
+你肯定听说过
+Java SE（Java Platform，Standard Edition）
+Java EE（Java Platform，Enterprise Edition）
+Java ME（Java Platform，Micro Edition）
+
+服务端开发，要用java ee，其实只要下载jdk就行了，jdk(Java SE Development Kit 8 Downloads) Java开发工具包，包含了jre(Java运行时环境，如果只是跑代码，只需要jre就可以了)
+
+JDK与Java SE/EE/ME的区别
+
+jdk是不区分se、ee、me的，所以你在oracle的官网上只要下载java se对应的版本jdk即可，你可能会奇怪，不是ee才是企业级开发吗？为什么下载jdk就可以了？
+
+参考引文 http://javaligang.blog.51cto.com/5026500/1825681
+
+Java刚开始的时候，因为各种应用和生态不成熟，很多东西需要有人牵头制定强制规范引导Java的发展，于是Java EE曾经引领了企业级应用的开发。
+
+但随着时代的进步，以及越来越多的公司和组织参与到Java世界，出现了各种各样的Java EE组件的代替者，比如Hibernate、Spring就是其中两个典型。相反，Java官方制定的各种Java EE规范反而不太受欢迎，他们制定了JSF规范，但实际企业开发喜欢用Struts 2、Spring MVC；他们制定了EJB规范，但实际企业开发往往还是喜欢用Spring；他们制定了JPA规范，但实际企业开发往往还是喜欢直接用Hibernate、MyBatis。
+
+现代企业级应用常用的各种框架和工具，比如Struts 2、Spring、Hibernate、jBPM、Activiti、Lucene、Hadoop、Drools、CXF等这些大家耳熟能详的组件，全部都不是来自Oracle官方，但是却在企业应用中开发经常用到的。
+
+现在企业里面，真正常用的JavaEE规范有什么？Servlet、JSP、JMS、JNDI。这些技术都只是充当了一个程序的入口而已。
+
+Oracle之所以可能考虑放弃Java EE，正体现了Oracle对丧失Java控制权的无奈。企业的本质是逐利，Oracle每年为制定Java EE规范投入不少人力、财力，但制定的规范最终并没有获得市场的青睐，所以Oracle可能放弃这种吃亏不讨好的事情。
+
+但Java不同，2016年6月，Java在商业语言排行榜上的市场份额将近21%，庞大到恐怖的市场份额，背后隐藏着巨大各种专利使用费和盈利商机，任何一个理智的公司都不会放弃这个会下金蛋的母鸡。
+
+由此可见，oracle上提供的java EE是官方指定的javaEE规范，里面都是符合官方指定的javaEE组件，我们用SSM，SSH开发后台时使用到的只有Servlet、JSP、JMS等少量的java EE规范，没有必要使用orcale提供的java EE版本，直接使用jdk就可以（当然还需要maven等管理第三方的jar包来实现功能）
+
+有时会有这样的一个说法，选择jdk1.x的版本还是jdk8的版本这样的，jdk1.x的说法是很多年前遗留下来的说法，而现在我们统称的叫法是jdk8这样子。
+
+## Oracle jdk 和 Open jdk
+
+java -version
+
+(1) 如果是SUN/OracleJDK, 显示信息为:
+
+[root@localhost ~]# java -version
+java version "1.8.0_162"
+Java(TM) SE Runtime Environment (build 1.8.0_162-b12)
+Java HotSpot(TM) 64-Bit Server VM (build 25.162-b12, mixed mode)
+
+Java HotSpot(TM) 64-Bit Server VM 表明, 此JDK的JVM是Oracle的64位HotSpot虚拟机, 运行在Server模式下(虚拟机有Server和Client两种运行模式).
+Java(TM) SE Runtime Environment (build 1.8.0_162-b12) 是Java运行时环境(即JRE)的版本信息.
+
+(2) 如果OpenJDK, 显示信息为:
+
+[root@localhost ~]# java -version
+openjdk version "1.8.0_144"
+OpenJDK Runtime Environment (build 1.8.0_144-b01)
+OpenJDK 64-Bit Server VM (build 25.144-b01, mixed mode)
+
 ## 对象与类
 
 Java是一门面向对象很强的语言
@@ -446,6 +498,52 @@ Java中的所有方法都是通过动态绑定来实现多态的。
 虽然及其的啰嗦，这也是先入为主的影响吧，如果你先学的python，你会觉得这是理所当然的。
 {% endblockquote %}
 
+### Class类
+
+Java程序在运行时，Java运行时系统一直对所有的对象进行所谓的运行时类型标识，即所谓的RTTI(Run-Time Type Identification)。
+
+这项信息纪录了每个对象所属的类。虚拟机通常使用运行时类型信息选准正确方法去执行，用来保存这些类型信息的类是Class类。Class类封装一个对象和接口运行时的状态，当装载类时，Class类型的对象自动创建。
+
+说白了就是：
+
+Class类也是类的一种，只是名字和class关键字高度相似。Java是大小写敏感的语言。
+
+Class类的对象内容是你创建的类的类型信息，比如你创建一个shapes类，那么，Java会生成一个内容是shapes的Class类的对象
+
+Class类的对象不能像普通类一样，以 new shapes() 的方式创建，它的对象只能由JVM创建，因为这个类没有public构造函数
+
+Class类的作用是运行时提供或获得某个对象的类型信息，和C++中的typeid()函数类似。这些信息也可用于反射。
+
+```java
+public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException,            InstantiationException, NoSuchMethodException {
+        // Class类的作用是运行时提供或获得某个对象的类型信息
+
+        // 获取Class对象的方式
+        Class class_user1 = Class.forName("ioclearn.User");
+
+        User instance_user = new User();
+        Class class_user2 = instance_user.getClass();
+
+        Class class_user3 = User.class;
+
+        // 使用Class类的对象来生成目标类的实例
+        Object user = class_user1.getMethod("Display");
+        Object newShape = class_user3.newInstance();
+
+        // newInstance返回的对象，只能是Object类型
+
+        // 利用泛型
+        Class obj1 = int.class;
+        Class<Integer> obj2 = int.class;
+        obj1 = double.class;
+        // obj2=double.class; 错误
+
+        Class<? super Double> obj3 = Double.class;
+        // Class<Number> obj3 = Double.class; // 这里很特殊，不能直接用超类的引用，要用<? super Double>，记住就行了
+        obj3 = Number.class;
+
+    }
+```
 
 ## 接口
 
@@ -598,6 +696,7 @@ length方法返回代码单元数量，实际长度即码点数调用`int cpCoun
 获取指定位置的码点: `str.offsetByCodePoints(0, index); int cp = greeting.codePointAt(index);`
 
 2. 常用方法和操作
+
 字面量也可以调用很多方法
 
 例子：
@@ -721,9 +820,89 @@ extends 关键字来限制泛型参数的超类 <T extends Comparable> 这样实
 
 ## 反射
 
+理解jvm和Class对象
+
 getClass()
 getName()
-forName()
+
+### 判断是否为某个类的实例
+
+son instanceof Son
+
+Student.class.isInstance(student)
+
+### 创建实例
+
+1. 利用newInstance创建对象：调用的类必须有无参的构造器
+
+```java
+//Class<?>代表任何类的一个类对象。
+//使用这个类对象可以为其他类进行实例化
+//因为jvm加载类以后自动在堆区生成一个对应的*.Class对象
+//该对象用于让JVM对进行所有*对象实例化。
+Class<?> c = String.class;
+
+//Class<?> 中的 ? 是通配符，其实就是表示任意符合泛类定义条件的类，和直接使用 Class
+//效果基本一致，但是这样写更加规范，在某些类型转换时可以避免不必要的 unchecked 错误。
+
+Object str = c.newInstance();
+```
+
+2. 先通过Class对象获取指定的Constructor对象，再调用Constructor对象的newInstance()方法来创建实例。这种方法可以用指定的构造器构造类的实例。
+
+`public Constructor<T> getConstructor(Class<?>... parameterTypes)` 观察getConstructor的方法签名，它接收Class<?>对象，这里就是和有参数的构造器要想对应，比如构造器需要`String a, Integer b`，那么getConstructor传递`String.class, Integer.class`
+
+```java
+//获取String所对应的Class对象
+Class<?> c = String.class;
+//获取String类带一个String参数的构造器
+Constructor constructor = c.getConstructor(String.class);
+//根据构造器创建实例
+Object obj = constructor.newInstance("23333");
+System.out.println(obj);
+```
+
+```java
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+class Student {
+    private String a;
+    public Student(String a, Integer b) {
+
+    }
+
+    public Student(String a) {
+        this.a = a;
+    }
+
+    public Student(Boolean b) {
+
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "a='" + a + '\'' +
+                '}';
+    }
+}
+
+public class Test2 {
+    public static void main(String[] args)
+            throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+        Class<Student> c = Student.class;
+        Constructor<Student> constructor = c.getConstructor(String.class);
+        Student student = constructor.newInstance("abc");
+        System.out.println(student);
+    }
+}
+```
+
+### 获取方法
+
+1. getDeclaredMethods
+
 
 ## 输入与输出
 

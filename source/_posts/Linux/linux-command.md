@@ -245,6 +245,10 @@ supervisorctl -c ./conf/supervisor.conf status 查看状态
 
 sed -n '3,9p' filename 获取3到9行的内容
 
+sed -i 's#${user.home}#/app/svr/rocketmq#g' *.xml
+
+替换文本，`'s/原字符串/新字符串/g'` 格式是这样，g代表全部符号的都替换，比如 `'s/d/123'` 作用于文本 ddd，结果是 123ddd，加了g后就是123123123，其中`/`可以换成其它符号，比如`#`，这样就和文本内容区别开了。`*.xml`是作用的文件，整个功能就是把当前目录xml后缀的文件进行文本替换，`${user.home}`环境变量取值换成固定的`/app/svr/rocketmq`
+
 ## journalctl 日志管理
 
 和systemctl类似的很强大的日志查看命令

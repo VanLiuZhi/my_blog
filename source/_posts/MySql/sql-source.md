@@ -66,3 +66,21 @@ select * from `equipment` order by case when (id='ZJXCA007804' or id='ZJXCA00069
 equipments.order_by(Case(When(id__in=[item.get('eqid', 0) for item in equipment_ids], then=0), default=1), '-ismonitor', 'id')
 ```
 
+## 分页
+
+limit y 分句表示: 读取 y 条数据
+limit x, y 分句表示: 跳过 x 条数据，读取 y 条数据
+limit y offset x 分句表示: 跳过 x 条数据，读取 y 条数据
+
+第1页： 从第0个开始，获取20条数据
+```sql
+selete * from testtable limit 0, 20; 
+selete * from testtable limit 20 offset 0;  
+```
+
+第2页： 从第20个开始，获取30条数据
+```sql
+selete * from testtable limit 20, 30; 
+selete * from testtable limit 30 offset 20;  
+```
+
