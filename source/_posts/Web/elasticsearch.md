@@ -78,3 +78,7 @@ rs = list(parallel_bulk(client, objects,
 
 举例了parallel_bulk的用法，这里需要迭代才会执行，使用list
 
+## 新内容
+
+es 7.0 对应  head 插件 5.x  这是我上次的坑 如果不用5.x 的head 会连不上es
+

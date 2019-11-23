@@ -33,6 +33,21 @@ JNDI(Java Naming and Directory Interface,Java命名和目录接口)是SUN公司�
 
 配置环境变量，保证 java javac java -version 都能输出正确信息
 
+## classpath路径
+
+Java项目中classpath路径
+1、src不是classpath, WEB-INF/classes、lib、resources才是classpath，WEB-INF/是资源目录, 客户端不能直接访问。
+
+2、WEB-INF/classes目录存放src目录java文件编译之后的class文件，xml、properties等资源配置文件，这是一个定位资源的入口。
+
+3、引用classpath路径下的文件，只需在文件名前加classpath:
+`<property name="configLocation" value="classpath:/mybatis/mybatis-config.xml" />`
+4、lib和classes同属classpath，两者的访问优先级为: lib>classes。
+
+5、classpath 和 classpath* 区别：
+classpath：只会到你的class路径中查找找文件;
+classpath*：不仅包含class路径，还包括jar文件中(class路径)进行查找。
+
 ## 关于版本
 
 你肯定听说过
@@ -115,6 +130,22 @@ main() 方法的参数是一个String对象的数组，以及一个args，一般
 ### 原始类型和封装类
 
 引用类型和原始类型（或内置类型）。比如:Int是java的原始数据类型，Integer是java为int提供的封装类
+
+8种基本类型
+
+整型：byte 8, short 16, int 32, long 64
+
+字符型：char
+char类型是一个单一的 16 位 Unicode 字符；
+最小值是 \u0000（即为0）；
+最大值是 \uffff（即为65,535）；
+char 数据类型可以储存任何字符；
+例子：char letter = 'A';。
+
+浮点型：float 32, double 64
+布尔型：boolean
+
+
 
   原始类型           封装类   
   boolean           Boolean   
@@ -622,6 +653,12 @@ Foreach 也可以用于任何Collection对象
 
 关于Map，HashMap用于快速访问，TreeMap始终让键保持在排序状态(类似二叉树插入)，LinkedHashMap保持插入顺序，也提供散列提供快速访问的能力
 
+### HashMap
+
+通过h & (table.length -1)来得到该对象的保存位，而HashMap底层数组的长度总是2的n次方，这是HashMap在速度上的优化。当length总是2的n次方时，h& (length-1)运算等价于对length取模，也就是h%length，但是&比%具有更高的效率。在JDK1.8的实现中，优化了高位运算的算法，通过hashCode()的高16位异或低16位实现的：(h = k.hashCode()) ^ (h >>> 16)，主要是从速度、功效、质量来考虑的，这么做可以在数组table的length比较小的时候，也能保证考虑到高低Bit都参与到Hash的计算中，同时不会有太大的开销。
+
+我理解了，hashmap如果直接对hash值取模结果会有明显的局部性，并且引起堆积。 解决了哈希碰撞问题，思想就是把高位和低位混合进行计算，提高分散性
+
 ### 自动装箱
 
 ```java
@@ -820,10 +857,18 @@ extends 关键字来限制泛型参数的超类 <T extends Comparable> 这样实
 
 ## 反射
 
-理解jvm和Class对象
+理解jvm和Class对象就能理解了反射
 
-getClass()
-getName()
+最重要的一步，获得Class对象，方式如下:
+
+类名.class 泛型为T
+getClass() 实例调用 泛型为? 
+Class.forName("ioclearn.Test") 泛型为?
+
+所以，只有`类名.class`的形式能确定类型，其它情况获取的对象，在后续的使用中要么类型转换或者用Object对象
+
+其它方法补充:
+getName() Class的实例调用，返回 字符串 ioclearn.Test
 
 ### 判断是否为某个类的实例
 
@@ -901,7 +946,114 @@ public class Test2 {
 
 ### 获取方法
 
-1. getDeclaredMethods
+1. getDeclaredMethods 
+返回类或接口声明的所有方法，包括公共、保护、默认（包）访问和私有方法，但不包括继承的方法
+2. getMethods 
+返回某个类的所有公用（public）方法，包括其继承类的公用方法
+3. getMethod 
+方法返回一个特定的方法，其中第一个参数为方法名称，后面的参数为方法的参数对应Class的对象
+
+包含Declared描述的方法，获取的是自己类的，继承的没有(包含私有，公有的)，不包含的返回公有的，包括继承的(只返回公有的)
+这个在获取字段中也是类似的情况
+
+再次强调，获取字段也是类似的：
+
+getDeclaredMethod*()获取的是类自身声明的所有方法，包含public、protected和private方法。
+getMethod*()获取的是类的所有共有方法，这就包括自身的所有public方法，和从基类继承的、从接口实现的所有public方法。
+
+### 获取构造器
+
+getConstructor
+
+### 获取成员变量，字段
+
+getFiled: 访问公有的成员变量 
+getDeclaredField：所有已声明的成员变量。但不能得到其父类的成员变量 
+
+### 调用方法
+
+这个例子包含了调用的很多情况
+
+```java
+ public static void main(String[] args)
+            throws InvocationTargetException, IllegalAccessException,
+            InstantiationException, NoSuchMethodException, InvocationTargetException {
+        Class<UserBean> userBeanClass = UserBean.class;
+        //获取该类所有的方法，包括静态方法，实例方法。
+        //此处也包括了私有方法，只不过私有方法在用invoke访问之前要设置访问权限
+        //也就是使用setAccessible使方法可访问，否则会抛出异常
+        // getDeclaredMethod*()获取的是类自身声明的所有方法，包含public、protected和private方法。
+        // getMethod*()获取的是类的所有共有方法，这就包括自身的所有public方法，和从基类继承的、从接口实现的所有public方法。
+        // IllegalAccessException的解释是
+        // * An IllegalAccessException is thrown when an application tries
+        // * to reflectively create an instance (other than an array),
+        // * set or get a field, or invoke a method, but the currently
+        // * executing method does not have access to the definition of
+        // * the specified class, field, method or constructor.
+        //IllegalAccessException的解释是 就是说，当这个类，域或者方法被设为私有访问，使用反射调用但是却没有权限时会抛出异常。
+        Method[] methods = userBeanClass.getDeclaredMethods(); // 获取所有成员方法
+        for (Method method : methods) {
+            //反射可以获取方法上的注解，通过注解来进行判断
+            if (method.isAnnotationPresent(Invoke.class)) { // 判断是否被 @Invoke 修饰
+                //判断方法的修饰符是是static
+                // getModifiers获取方法的修饰
+                if (Modifier.isStatic(method.getModifiers())) { // 如果是 static 方法
+                    //反射调用该方法
+                    //类方法可以直接调用，不必先实例化
+                    method.invoke(null, "wingjay", 2); // 直接调用，并传入需要的参数 devName
+                } else {
+                    //如果不是类方法，需要先获得一个实例再调用方法
+                    //传入构造方法需要的变量类型
+                    Class[] params = {String.class, long.class};
+                    //获取该类指定类型的构造方法
+                    //如果没有这种类型的方法会报错
+                    Constructor<UserBean> constructor = userBeanClass.getDeclaredConstructor(params); // 获取参数格式为 String,long 的构造函数
+                    //通过构造方法的实例来进行实例化
+                    Object userBean = constructor.newInstance("wingjay", 11); // 利用构造函数进行实例化，得到 Object
+                    if (Modifier.isPrivate(method.getModifiers())) {
+                        method.setAccessible(true); // 如果是 private 的方法，需要获取其调用权限
+                        //     Set the {@code accessible} flag for this object to
+                        //     * the indicated boolean value.  A value of {@code true} indicates that
+                        //     * the reflected object should suppress Java language access
+                        //     * checking when it is used.  A value of {@code false} indicates
+                        //     * that the reflected object should enforce Java language access checks.
+                        //通过该方法可以设置其可见或者不可见，不仅可以用于方法
+                        //后面例子会介绍将其用于成员变量
+                        //打印结果
+                        // I'm a public method
+                        // Hi wingjay, I'm a static methodI'm a private method
+                    }
+                    method.invoke(userBean); // 调用 method，无须参数
+                }
+            }
+        }
+    }
+```
+
+### 利用反射创建数组
+
+`import java.lang.reflect.Array;` 利用反射中提供的Array类来创建
+
+```java
+public static void main(String[] args) {
+        Class<?> cls = null;
+        try {
+            cls = Class.forName("java.lang.String");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        Object array = Array.newInstance(cls,25);
+        //往数组里添加内容
+        Array.set(array,0,"hello");
+        Array.set(array,1,"Java");
+        Array.set(array,2,"fuck");
+        Array.set(array,3,"Scala");
+        Array.set(array,4,"Clojure");
+        //获取某一项的内容
+        System.out.println(Array.get(array,3));
+        //Scala
+    }
+```
 
 
 ## 输入与输出
@@ -921,20 +1073,142 @@ System.out.println(name);
 
 包含三种标准注解和四种元注解
 
-标准注解：
+标准注解，就是JDK内置的注解，位于java.lang.annotation中:
 1. Override
-2. Deprecated
+编译器可以给你验证@Override下面的方法名是否是你父类中所有的，如果没有则报错。例如，你如果没写@Override，而你下面的方法名又写错了，这时你的编译器是可以编译通过的，因为编译器以为这个方法是你的子类中自己增加的方法
+2. Deprecated 
+弃用的，一个方法被加上这个注解后，在子类中重写这个方法，idea工具会把这个方法名划线，表示这个方法被弃用了，最好不要用，但是，此方法有可能在以后的版本升级中会被慢慢的淘汰(因为我查到的资料说编译器会有提示，运行了没有，JDK1.8下测试的，补充，可能是idea工具的原因，因为编译程序的时候是可以指定参数的，个人猜测idea优化了这些东西了)
 3. SuppressWarnings
+根据传递的参数来抑制警告
 
-元注解：
-1. Target
-2. Retention
-3. Documented
-4. Inherited
+Java8新增 @FunctionalInterface
+ * 此注解是 Java8 提出的函数式接口，接口中只允许有一个抽象方法
+ * 加上这个注解之后，类中多一个抽象方法或者少一个抽象方法都会报错
 
-注解是一种标记，基本注解用来决定注解到什么地方，什么时候发挥作用。我们需要读取注解的工具，也就是`创建与使用注解处理器`
+元注解，用来注解其它注解的，自定义注解一般会用到：
+1. @Documented –注解是否将包含在JavaDoc中
 
-注解处理器是一个单独的类，通过获取被注解的类，然后调用获取注解信息的方法得到注解信息，之后进行操作。有各种反射方法来获取注解标记的信息。
+2. @Retention –什么时候使用该注解
+定义该注解的生命周期，参数如下：
+- RetentionPolicy.SOURCE : 
+在编译阶段丢弃。这些注解在编译结束之后就不再有任何意义，所以它们不会写入字节码。@Override, @SuppressWarnings都属于这类注解
+
+- RetentionPolicy.CLASS : 
+在类加载的时候丢弃。在字节码文件的处理中有用。注解默认使用这种方式
+  
+- RetentionPolicy.RUNTIME : 
+始终不会丢弃，运行期也保留该注解，因此可以使用反射机制读取该注解的信息。我们自定义的注解通常使用这种方式。
+
+3. @Target –注解用于什么地方
+表示该注解用于什么地方。`默认值为任何元素`，表示该注解用于什么地方，不能把用于字段的用在方法上，可用的ElementType参数包括
+
+● ElementType.CONSTRUCTOR:用于描述构造器
+● ElementType.FIELD:成员变量、对象、属性（包括enum实例）
+● ElementType.LOCAL_VARIABLE:用于描述局部变量
+● ElementType.METHOD:用于描述方法
+● ElementType.PACKAGE:用于描述包
+● ElementType.PARAMETER:用于描述参数
+● ElementType.TYPE:用于描述类、接口(包括注解类型) 或enum声明
+
+4. @Inherited – 是否允许子类继承该注解
+@inherited注解修饰的注解@A，@A修饰某个类，则该类的子类也被@A修饰
+
+### 注解的属性
+
+注解的属性是注解里面使用的，注解的属性也叫做成员变量，注解只有成员变量，没有方法。
+注解的成员变量在注解的定义中以“无形参的方法”形式来声明，其方法名定义了该成员变量的名字，其返回值定义了该成员变量的类型
+在注解中定义属性时它的类型必须是 8 种基本数据类型外加 类、接口、注解及它们的数组，String类型也可以用
+
+示例:
+```java
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface TestAnnotation {
+
+    int id();
+
+    String msg();
+
+}
+```
+
+默认值`public int id() default -1;`
+
+如果一个注解内仅仅只有一个名字为 value 的属性时，应用这个注解时可以直接把属性值填写到括号内，比如上面的测试注解只有id属性时`@TestAnnotation(123)`
+
+注解没有属性可以省略括号
+
+当注解中含有数组属性时，使用{}赋值，各个元素使用逗号分隔
+定义 `String[] parentsName();` 
+赋值 `@ParentsAnnotation(parentsName = {"1", "2"}`
+
+注解的属性可以是另外一个注解
+
+```java
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+@Documented
+public @interface MyAnnotation {
+    String name();
+
+    int id();
+
+    ParentsAnnotation parentsannotation();
+    // ParentsAnnotation parentsannotation() default  @ParentsAnnotation(parentsName = {"!"}, parentsAge = 1); 设置默认值，这样对方法添加注解的时候就不用赋值了
+}
+```
+
+```java
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
+public @interface ParentsAnnotation {
+    String[] parentsName();
+
+    int parentsAge();
+}
+```
+
+使用
+```java
+@MyAnnotation(name = "x", id = 1, parentsannotation = @ParentsAnnotation(parentsName = {"1", "2"}, parentsAge = 2))
+    public void test() {
+
+    }
+
+// annotation.parentsannotation().parentsAge() 获取到继承注解的属性
+```
+
+属性数组的元素可以是另外一个注解
+`Hello[] helloArrayValue() default {@Hello,@Hello};`
+
+以上，就是注解属性定义的各种情况
+
+
+### 注解处理器
+
+注解是一种标记，基本注解用来决定注解到什么地方，什么时候发挥作用。我们需要读取注解的工具，也就是`创建与使用注解处理器`。注解处理器是一个单独的类，通过获取被注解的类，然后调用获取注解信息的方法得到注解信息，之后进行操作。有各种反射方法来获取注解标记的信息。
+
+第一步，当然是获取注解数据了
+
+Class.getAnnotation(Class< A > annotationClass) 获取指定的注解，该注解可以是自己声明的，也可以是继承的
+Class.getDeclaredAnnotations() 获取自己声明的注解
+Class.getAnnotations() 获取所有的注解，包括自己声明的以及继承的
+
+上面是类的注解获取方式，方法和字段的注解用对应类型即可
+
+后两种返回的是数组，这个继承是说使用了`@Inherited`的情况，也就是说是对于`类的注解`这两个方法有区别，其它是一样的(测试是这样的)
+
+得到注解后，获取注解标注的属性
+
+```java
+Class<Test> c = Test.class;
+Method method = c.getMethod("test");
+Annotation[] annotationsArray = method.getDeclaredAnnotations();
+MyAnnotation annotation = (MyAnnotation) annotationsArray[0];
+System.out.println(annotation.name()); // 普通属性
+System.out.println(annotation.parentsannotation().parentsAge()); // 属性是注解，再去获取这个注解的属性
+```
+
 
 ## 内置包
 
@@ -1035,6 +1309,22 @@ class Test {
 
 大致上来说 `String...` 和 `String[]` 差不多，在上面的例子中，两种传参都可以(但是不推荐这样用)，但是参数类型换成数组的时候，`MyTest("1", "2", "3");`就不行了。另外此时两种MyTest方法不能同时存在，会被认为是方法重复。
 
+### 取余和取模
+
+Python3中，" / "就一定表示`浮点数除法`，返回浮点结果，" // "表示`整数除法`
+
+Java中两个整数类型相除，结果是整数，其中一个是浮点数，结果就是浮点数
+
+上面回顾了除法的问题，在Java中 %为取余（rem），Math.floorMod()为取模（mod）
+
+取余运算在计算商值向0方向舍弃小数位
+取模运算在计算商值向负无穷方向舍弃小数位
+
+例如： 4 / (-3) 约等于-1.3
+在取余运算时候商值向0方向舍弃小数位位 -1
+在取模运算时商值向负无穷方向舍弃小数位为 -2
+
+这个概念很重要，未完待续
 
 ## JVM
 

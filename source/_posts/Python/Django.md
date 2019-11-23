@@ -462,6 +462,10 @@ distinct()可以对查询集进行去重复，比如querset.distinct(),  得到�
 
 - sql：EXISTS用于检查子查询是否至少会返回一行数据，该子查询实际上并不返回任何数据，而是返回值True或False。EXISTS 指定一个子查询，检测 `行` 的存在。django也可以用这个方法，对于queryset.exists()即可
 
+- aggregate和annotate方法使用详解与示例
+
+https://blog.csdn.net/weixin_42134789/article/details/84567365
+
 ## 事务
 
 默认情况下，django的sql执行都是在事务中进行的，MySQL一般都是开启默认事务提交的，正常情况下，sql语句必须要开启事务，如何才能提交事务。而django的sql的执行会默认在事务中，避免了脏读。

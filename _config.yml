@@ -39,11 +39,20 @@ render_drafts: false
 post_asset_folder: false
 relative_link: false
 future: true
+
+# 代码高亮，默认配置
 highlight:
-  enable: true
+  enable: false
   line_number: true
   auto_detect: false
   tab_replace:
+
+# 新增第三方插件的代码高亮
+prism_plugin:
+  mode: 'preprocess'    # realtime/preprocess
+  theme: 'tomorrow'
+  line_number: true    # default false
+  custom_css:
   
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
@@ -74,7 +83,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: mellow
+theme: hexo-theme-matery
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
