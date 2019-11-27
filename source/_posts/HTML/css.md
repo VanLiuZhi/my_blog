@@ -374,3 +374,13 @@ event.preventDefault(); 取消事件的默认行为，因为有些事件它就�
 ## pre 
 标签原样展示文本内容，前提是字体设置为等宽字体`font-family: monospace;`
 `<pre style='word-wrap: break-word;white-space: pre-wrap;'>` 自动换行
+
+## a标签补充
+
+<a href='javascript:void(0);'> 很多时候我们这样写，让a标签不跳转，增加onclick可以去执行方法，并且保持一个超链接的样式
+
+```html
+<a href='javascript:void(0);' onclick='deposit_volume(this)' class='deposit_volume'>
+```
+
+

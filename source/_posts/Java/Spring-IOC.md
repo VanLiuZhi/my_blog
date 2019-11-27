@@ -68,3 +68,4 @@ public class AppConfig {
 - 在Configuration注解后，获取的bean都是同一个，也就是从缓存获取的
 
 用@Configuration注解标注的类表明其主要目的是作为bean定义的源，@Configuration类允许通过调用同一类中的其他@Bean方法来定义bean之间的依赖关系
+

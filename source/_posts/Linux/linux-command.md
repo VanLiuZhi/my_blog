@@ -25,7 +25,8 @@ scp命令 （主机和服务器相互拷贝数据，该命令要求开启scp服�
 
 从本地到服务器 `scp 本地路径 root@ip:拷贝路径`
 
-拷贝文件夹下的数据 scp -r /test/ root@ip:/root/test
+拷贝文件夹下的数据 scp -r /test/ root@ip:/root/target
+记得拷贝文件夹要加 -r 斜杆遵照上面的格式，效果为把本地test文件夹拷贝到服务器，服务器在/root/target/test下得到文件夹下的文件
 
 ## grep
 
@@ -304,4 +305,11 @@ tail -f -n 100 catalina.out linux查看日志后100行
 搜寻字符串
 grep ‘搜寻字符串’ filename
 按ctrl+c 退出
+
+## 修改用户和用户组
+
+chown www lifang 改用户  chown 用户 要修改的文件
+chgrp www lifang 改用户组  chgrp 用户组 要修改的文件
+
+
 
