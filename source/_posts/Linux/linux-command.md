@@ -28,6 +28,26 @@ scp命令 （主机和服务器相互拷贝数据，该命令要求开启scp服�
 拷贝文件夹下的数据 scp -r /test/ root@ip:/root/target
 记得拷贝文件夹要加 -r 斜杆遵照上面的格式，效果为把本地test文件夹拷贝到服务器，服务器在/root/target/test下得到文件夹下的文件
 
+## cp
+
+1. 复制指定目录下的全部文件到另一个目录中
+如果dir2目录不存在，则可以直接使用
+cp -r dir1 dir2
+
+如果dir2目录已存在，则需要使用
+cp -r dir1/. dir2
+
+2. 复制文件
+cp a.py /app/
+
+## rm
+
+删除当前目录下文件
+
+在终端输入命令：rm ./*
+解释：删除文件用rm命令，.点号代表当前目录，*星号是匹配符代表所有文件
+
+
 ## grep
 
 内容查找命令，配合其它命令一起使用
@@ -64,7 +84,7 @@ wget url 下载文件
 
 关于解压，如果是网络的包，文件后缀tar.gz
 
-解压命令 tar zxf filename
+解压命令 tar zxvf filename
 
 zip类型，需要安装解压工具 unzip
 

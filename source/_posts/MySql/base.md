@@ -29,6 +29,7 @@ mysql学习笔记
 
     drop database; 库名      //删除数据库
 
+/app/mysql/5.7.18/bin/mysql --socket=/app/mysql/5.7.18/dirstats/mysqld.sock -uroot -h134.108.3.196  -p
 
 请先到 /etc/mysql   配置  my.cnf  避免中文插入有误
 

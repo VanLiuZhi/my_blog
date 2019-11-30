@@ -145,8 +145,6 @@ char 数据类型可以储存任何字符；
 浮点型：float 32, double 64
 布尔型：boolean
 
-
-
   原始类型           封装类   
   boolean           Boolean   
   char              Character   
@@ -1346,3 +1344,23 @@ RTTI：运行时类型识别
 
 Class对象，它是一个特殊的对象，每当编译一个新类就会产生其同名的Class对象，后缀名是Class，也就是字节码。为了生成这个类对象，运行这个程序的JVM将使用被称为“类加载器的”子系统。该部分都是运行时涉及到的概念。
 所以的类对象都是在对其第一次使用的时候，动态的加载到JVM中的。使用new关键字创建类的新对象被当作对类的静态成员的引用。
+
+## javac 和 javap
+
+编译java文件
+
+1. 程序中编译
+java提供了JavaCompiler，我们可以通过它来编译java源文件为class文件，这个相关的类，用来在代码中编译，大致流程就是读取一个java后缀文件，把它编译成class后缀文件
+
+2. 命令编译
+classpath是什么？
+
+在dos下编译java程序，就要用到classpath这个概念，尤其是在没有设置环境变量的时候。classpath就是存放.class等编译后文件的路径
+
+javac：如果当前你要编译的java文件中引用了其它的类(比如说：继承)，但该引用类的.class文件不在当前目录下，这种情况下就需要在javac命令后面加上-classpath参数，通过使用以下三种类型的方法 来指导编译器在编译的时候去指定的路径下查找引用类。
+
+(1).绝对路径：javac -classpath c:/junit3.8.1/junit.jar Xxx.java
+
+(2).相对路径：javac -classpath ../junit3.8.1/Junit.javr Xxx.java
+
+(3).系统变量：javac -classpath %CLASSPATH% Xxx.java (注意：%CLASSPATH%表示使用系统变量CLASSPATH的值进行查找，这里假设Junit.jar的路径就包含在CLASSPATH系统变量中)
